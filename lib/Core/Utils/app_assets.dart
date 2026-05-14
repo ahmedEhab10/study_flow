@@ -26,6 +26,10 @@ class Assets {
   /// assets/Images/onboardin_image3.png
   static const String imagesOnboardinImage3 = "assets/Images/onboardin_image3.png";
 
+  /// Assets for imagesStreakImage
+  /// assets/Images/streak_image.png
+  static const String imagesStreakImage = "assets/Images/streak_image.png";
+
   /// Assets for svgsAiQuizIcon
   /// assets/Svgs/ai_quiz_icon.svg
   static const String svgsAiQuizIcon = "assets/Svgs/ai_quiz_icon.svg";
@@ -34,16 +38,68 @@ class Assets {
   /// assets/Svgs/app_icon.svg
   static const String svgsAppIcon = "assets/Svgs/app_icon.svg";
 
+  /// Assets for svgsBiolgy
+  /// assets/Svgs/biolgy.svg
+  static const String svgsBiolgy = "assets/Svgs/biolgy.svg";
+
+  /// Assets for svgsDone
+  /// assets/Svgs/done.svg
+  static const String svgsDone = "assets/Svgs/done.svg";
+
   /// Assets for svgsHomeIcon
   /// assets/Svgs/home_icon.svg
   static const String svgsHomeIcon = "assets/Svgs/home_icon.svg";
+
+  /// Assets for svgsPdfSvg
+  /// assets/Svgs/pdf_svg.svg
+  static const String svgsPdfSvg = "assets/Svgs/pdf_svg.svg";
 
   /// Assets for svgsProfileIcon
   /// assets/Svgs/profile_icon.svg
   static const String svgsProfileIcon = "assets/Svgs/profile_icon.svg";
 
+  /// Assets for svgsSelectedHomeIcon
+  /// assets/Svgs/selected_home_icon.svg
+  static const String svgsSelectedHomeIcon = "assets/Svgs/selected_home_icon.svg";
+
+  /// Assets for svgsSelectedProfileIcon
+  /// assets/Svgs/selected_profile_icon.svg
+  static const String svgsSelectedProfileIcon = "assets/Svgs/selected_profile_icon.svg";
+
+  /// Assets for svgsSelectedQuizIcon
+  /// assets/Svgs/selected_quiz_icon.svg
+  static const String svgsSelectedQuizIcon = "assets/Svgs/selected_quiz_icon.svg";
+
+  /// Assets for svgsSelectedTaskIcon
+  /// assets/Svgs/selected_Task_icon.svg
+  static const String svgsSelectedTaskIcon = "assets/Svgs/selected_Task_icon.svg";
+
+  /// Assets for svgsStreak
+  /// assets/Svgs/streak.svg
+  static const String svgsStreak = "assets/Svgs/streak.svg";
+
   /// Assets for svgsTasksIcon
   /// assets/Svgs/Tasks_icon.svg
   static const String svgsTasksIcon = "assets/Svgs/Tasks_icon.svg";
+
+  /// Assets for svgsTime
+  /// assets/Svgs/time.svg
+  static const String svgsTime = "assets/Svgs/time.svg";
+
+  /// Assets for svgsUnselactedHomeIcon
+  /// assets/Svgs/unselacted_home_icon.svg
+  static const String svgsUnselactedHomeIcon = "assets/Svgs/unselacted_home_icon.svg";
+
+  /// Assets for svgsUnselactedProfileIcon
+  /// assets/Svgs/unselacted_profile_icon.svg
+  static const String svgsUnselactedProfileIcon = "assets/Svgs/unselacted_profile_icon.svg";
+
+  /// Assets for svgsUnselactedQuizIcon
+  /// assets/Svgs/unselacted_quiz_icon.svg
+  static const String svgsUnselactedQuizIcon = "assets/Svgs/unselacted_quiz_icon.svg";
+
+  /// Assets for svgsUnselactedTaskIcon
+  /// assets/Svgs/unselacted_task_icon.svg
+  static const String svgsUnselactedTaskIcon = "assets/Svgs/unselacted_task_icon.svg";
 }
 
