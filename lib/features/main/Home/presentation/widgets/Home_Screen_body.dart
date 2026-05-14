@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,8 +11,14 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomScrollPadding =
+        75.0 + MediaQuery.paddingOf(context).bottom + 24.h;
+
     return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
+      cacheExtent: 400,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
 
       slivers: [
         SliverToBoxAdapter(
@@ -84,22 +89,17 @@ class HomeScreenBody extends StatelessWidget {
                 // ),
                 //
                 SizedBox(height: 24.h),
-                // SubjectItem(
-                //   subject: SubjectModel(
-                //     name: 'Physics',
-                //     subtitle: '8 PDFs',
-                //     progress: 0.4,
-                //     accent: ColorsManager.primaryDark,
-                //     iconBg: ColorsManager.primary,
-                //     icon: SubjectIcon.physics,
-                //   ),
-                // ),
-                MySubjectsSection(),
-                SizedBox(height: 32.h),
               ],
             ),
           ),
         ),
+
+        SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+          sliver: const MySubjectsSection(),
+        ),
+
+        SliverToBoxAdapter(child: SizedBox(height: 32.h)),
 
         SliverToBoxAdapter(
           child: Padding(
@@ -121,6 +121,8 @@ class HomeScreenBody extends StatelessWidget {
             ),
           ),
         ),
+
+        SliverToBoxAdapter(child: SizedBox(height: bottomScrollPadding)),
       ],
     );
   }

@@ -10,10 +10,7 @@ class MySubjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final visibleSubjects = subjects.take(3).toList();
 
-    return GridView.custom(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-
+    return SliverGrid(
       gridDelegate: SliverQuiltedGridDelegate(
         crossAxisCount: 2,
 
@@ -29,8 +26,7 @@ class MySubjectsSection extends StatelessWidget {
         ],
       ),
 
-      childrenDelegate: SliverChildBuilderDelegate(
-        childCount: visibleSubjects.length,
+      delegate: SliverChildBuilderDelegate(
         (context, index) {
           final subject = visibleSubjects[index];
 
@@ -40,6 +36,7 @@ class MySubjectsSection extends StatelessWidget {
             onTap: () {},
           );
         },
+        childCount: visibleSubjects.length,
       ),
     );
   }

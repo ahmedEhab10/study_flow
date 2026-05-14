@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
-import 'package:study_flow/Core/Utils/app_assets.dart';
 
 class SubjectItem extends StatelessWidget {
   const SubjectItem({
@@ -35,7 +32,7 @@ class SubjectItem extends StatelessWidget {
           border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.04),
+              color: Colors.black.withValues(alpha: .04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
