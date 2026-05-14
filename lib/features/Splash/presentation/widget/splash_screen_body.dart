@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Helper/delay_funcation.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
-import 'package:study_flow/Core/Utils/app_assets.dart';
 
 class SplashScreenBody extends StatefulWidget {
   const SplashScreenBody({super.key});
@@ -14,10 +12,14 @@ class SplashScreenBody extends StatefulWidget {
 class _SplashScreenBodyState extends State<SplashScreenBody> {
   @override
   void initState() {
+    super.initState();
+
     delayFunction(
       2,
-      function: () =>
-          Navigator.pushReplacementNamed(context, Routes.onboarding),
+      function: () {
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, Routes.onboarding);
+      },
     );
   }
 

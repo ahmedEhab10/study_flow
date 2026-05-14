@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
@@ -59,12 +58,12 @@ class _SubjectCardState extends State<SubjectCard>
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: s.accent.withOpacity(0.10),
+                color: s.accent.withValues(alpha: 0.10),
                 blurRadius: 18,
                 offset: const Offset(0, 6),
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),

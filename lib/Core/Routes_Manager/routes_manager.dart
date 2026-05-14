@@ -8,10 +8,12 @@ class RoutesManager {
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.splash:
-        return CupertinoPageRoute(builder: (context) => SplashScreen());
+        return CupertinoPageRoute(builder: (context) => const SplashScreen());
 
       case Routes.onboarding:
-        return CupertinoPageRoute(builder: (context) => OnboardingScreen());
+        return CupertinoPageRoute(
+          builder: (context) => const OnboardingScreen(),
+        );
 
       case Routes.main_layout:
         return CupertinoPageRoute(builder: (context) => const MainLayout());

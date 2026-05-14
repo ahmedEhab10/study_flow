@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
 
 class SubjectIconWidget extends StatelessWidget {
@@ -114,7 +114,7 @@ class _SubjectIconPainter extends CustomPainter {
 
     // rungs
     final rungPaint = Paint()
-      ..color = p.color.withOpacity(0.5)
+      ..color = p.color.withValues(alpha: 0.5)
       ..strokeWidth = p.strokeWidth * 0.7
       ..strokeCap = StrokeCap.round;
     for (double t = 0.28; t <= 0.72; t += 0.22) {
@@ -220,7 +220,7 @@ class _SubjectIconPainter extends CustomPainter {
     liquidPath.lineTo(s.width * 0.88, s.height * 0.88);
     liquidPath.lineTo(s.width * 0.12, s.height * 0.88);
     liquidPath.close();
-    canvas.drawPath(liquidPath, f..color = f.color.withOpacity(0.35));
+    canvas.drawPath(liquidPath, f..color = f.color.withValues(alpha: 0.35));
 
     // top stopper line
     canvas.drawLine(
@@ -302,7 +302,7 @@ class _SubjectIconPainter extends CustomPainter {
 
     // lines on left
     final linePaint = Paint()
-      ..color = p.color.withOpacity(0.5)
+      ..color = p.color.withValues(alpha: 0.5)
       ..strokeWidth = p.strokeWidth * 0.6
       ..strokeCap = StrokeCap.round;
     for (double y = 0.35; y <= 0.68; y += 0.12) {
@@ -414,5 +414,7 @@ class _SubjectIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _SubjectIconPainter oldDelegate) {
+    return oldDelegate.icon != icon || oldDelegate.color != color;
+  }
 }

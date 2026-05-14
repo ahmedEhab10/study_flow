@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_item.dart';
@@ -8,25 +8,48 @@ class InformationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: const InformationItem(
-            title: 'Daily Streak',
-            icon: Assets.svgsStreak,
-            theinfo: '3 days',
-          ),
-        ),
-        SizedBox(width: 12.w),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 340;
 
-        Expanded(
-          child: const InformationItem(
-            title: 'Tasks Done',
-            icon: Assets.svgsDone,
-            theinfo: '5/12',
-          ),
-        ),
-      ],
+        if (isNarrow) {
+          return Column(
+            children: [
+              const InformationItem(
+                title: 'Daily Streak',
+                icon: Assets.svgsStreak,
+                theinfo: '3 days',
+              ),
+              SizedBox(height: 12.h),
+              const InformationItem(
+                title: 'Tasks Done',
+                icon: Assets.svgsDone,
+                theinfo: '5/12',
+              ),
+            ],
+          );
+        }
+
+        return Row(
+          children: [
+            const Expanded(
+              child: InformationItem(
+                title: 'Daily Streak',
+                icon: Assets.svgsStreak,
+                theinfo: '3 days',
+              ),
+            ),
+            SizedBox(width: 12.w),
+            const Expanded(
+              child: InformationItem(
+                title: 'Tasks Done',
+                icon: Assets.svgsDone,
+                theinfo: '5/12',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
