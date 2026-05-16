@@ -15,10 +15,7 @@ class HomeScreenBody extends StatelessWidget {
         75.0 + MediaQuery.paddingOf(context).bottom + 24.h;
 
     return CustomScrollView(
-      cacheExtent: 400,
-      physics: const BouncingScrollPhysics(
-        parent: AlwaysScrollableScrollPhysics(),
-      ),
+      physics: const ClampingScrollPhysics(),
 
       slivers: [
         SliverToBoxAdapter(
@@ -70,24 +67,6 @@ class HomeScreenBody extends StatelessWidget {
                   ],
                 ),
 
-                // Row(
-                //   children: [
-                //     SubjectItem(),
-                //     Expanded(
-                //       child: SubjectCard(
-                //         subject: SubjectModel(
-                //           name: 'Physics',
-                //           subtitle: '8 PDFs',
-                //           progress: 0.4,
-                //           accent: ColorsManager.primaryDark,
-                //           iconBg: ColorsManager.primary,
-                //           icon: SubjectIcon.physics,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                //
                 SizedBox(height: 24.h),
               ],
             ),
@@ -128,6 +107,25 @@ class HomeScreenBody extends StatelessWidget {
   }
 }
 
+
+ // Row(
+                //   children: [
+                //     SubjectItem(),
+                //     Expanded(
+                //       child: SubjectCard(
+                //         subject: SubjectModel(
+                //           name: 'Physics',
+                //           subtitle: '8 PDFs',
+                //           progress: 0.4,
+                //           accent: ColorsManager.primaryDark,
+                //           iconBg: ColorsManager.primary,
+                //           icon: SubjectIcon.physics,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                //
 
 
 //ClipRRect(

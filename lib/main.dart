@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Routes_Manager/routes_manager.dart';
 
@@ -15,8 +16,11 @@ class StudyFlow extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(443, 800),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+          useMaterial3: true,
+          textTheme: GoogleFonts.interTextTheme(),
           scaffoldBackgroundColor: Color.fromARGB(255, 246, 245, 247),
         ),
         onGenerateRoute: RoutesManager.onGenerateRoute,
