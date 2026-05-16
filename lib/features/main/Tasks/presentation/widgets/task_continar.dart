@@ -15,12 +15,18 @@ class _TaskContinarState extends State<TaskContinar> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       width: MediaQuery.of(context).size.width,
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.shade300, width: 2),
+        border: Border.all(
+          color: isDark ? Colors.grey.shade800 : Colors.grey,
+          width: 2,
+        ),
+        color: theme.colorScheme.surface,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 6.0),

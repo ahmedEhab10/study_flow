@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
+import 'package:study_flow/Core/resources/Colors_Manager.dart';
 
 class SubjectItem extends StatelessWidget {
   const SubjectItem({
@@ -18,6 +19,8 @@ class SubjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return InkWell(
       borderRadius: BorderRadius.circular(18.r),
       onTap: onTap,
@@ -27,16 +30,22 @@ class SubjectItem extends StatelessWidget {
           maxHeight: isLarge ? 240.h : 220.h,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(18.r),
-          border: Border.all(color: Colors.grey.shade200),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: .04),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          border: Border.all(
+            color:
+                theme.dividerTheme.color ??
+                ColorsManager.primary.withOpacity(0.1),
+          ),
+          boxShadow: isDark
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: .04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
         ),
 
         child: Column(
@@ -87,7 +96,7 @@ class SubjectItem extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w800,
                         fontSize: 20.sp,
-                        color: const Color(0xFF1A1D2E),
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
 
@@ -99,7 +108,7 @@ class SubjectItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       subject.subtitle,
                       style: GoogleFonts.inter(
-                        color: const Color(0xFF7B8190),
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -116,6 +125,7 @@ class SubjectItem extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.onSurface,
                           ),
                         ),
 

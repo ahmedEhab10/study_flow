@@ -32,7 +32,7 @@ abstract class ThemeManager {
       elevation: 0,
       centerTitle: true,
       titleTextStyle: GoogleFonts.inter(
-        fontSize: 18.sp,
+        fontSize: 18,
         fontWeight: FontWeight.w600,
         color: ColorsManager.textPrimaryLight,
       ),
@@ -47,7 +47,7 @@ abstract class ThemeManager {
       color: ColorsManager.lightSurface,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: ColorsManager.primary.withOpacity(0.08),
           width: 1,

@@ -17,13 +17,18 @@ class InformationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: const Color(0xffE2E2EC),
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.shade300, width: 1.5),
+        border: Border.all(
+          color: isDark ? Colors.grey.shade800 : Colors.grey,
+          width: 1.5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +41,7 @@ class InformationItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              color: const Color(0xFF414751),
+              color: theme.colorScheme.onSurface,
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               height: 1.35,
@@ -48,7 +53,7 @@ class InformationItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              color: Colors.black,
+              color: theme.colorScheme.onSurface,
               fontSize: 20.sp,
               fontWeight: FontWeight.w800,
               height: 1.35,

@@ -12,6 +12,8 @@ class TaskScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final bottomScrollPadding =
         75.0 + MediaQuery.paddingOf(context).bottom + 24.h;
     return Padding(
@@ -26,6 +28,7 @@ class TaskScreenBody extends StatelessWidget {
                 Text(
                   'My Tasks',
                   style: GoogleFonts.inter(
+                    color: theme.colorScheme.onSurface,
                     fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -34,7 +37,7 @@ class TaskScreenBody extends StatelessWidget {
                 Text(
                   'Stay focused. 5 tasks pending today.',
                   style: GoogleFonts.inter(
-                    color: const Color(0xFF414751),
+                    color: theme.colorScheme.onSurface,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1.50,

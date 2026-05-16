@@ -9,12 +9,14 @@ class CompletedContinar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       width: MediaQuery.of(context).size.width,
 
       decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.shade300, width: 2),
+        border: Border.all(color: theme.colorScheme.surface, width: 2),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 6.0),
@@ -28,11 +30,11 @@ class CompletedContinar extends StatelessWidget {
 
                 style: GoogleFonts.inter(
                   decoration: TextDecoration.lineThrough,
-                  decorationColor: Color.fromARGB(85, 65, 71, 81),
+                  decorationColor: theme.colorScheme.onSurface.withAlpha(124),
 
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(85, 65, 71, 81),
+                  color: theme.colorScheme.onSurface.withAlpha(124),
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

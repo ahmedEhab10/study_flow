@@ -25,6 +25,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
       body: Stack(
         children: [
@@ -55,7 +57,7 @@ class _MainLayoutState extends State<MainLayout> {
 
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: ColorsManager.white,
+                color: isDark ? ColorsManager.black : ColorsManager.white,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
