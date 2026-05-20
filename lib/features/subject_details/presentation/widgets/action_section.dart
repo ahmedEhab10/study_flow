@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
-import 'package:study_flow/features/Subject_Detalis/Presentation/widgets/action_button.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/action_button.dart';
 
 class ActionSection extends StatelessWidget {
-  const ActionSection({super.key});
+  final VoidCallback? onAddPdfTap;
+  final VoidCallback? onAddNoteTap;
+  final VoidCallback? onProgressTap;
+
+  const ActionSection({
+    super.key,
+    this.onAddPdfTap,
+    this.onAddNoteTap,
+    this.onProgressTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +20,7 @@ class ActionSection extends StatelessWidget {
       children: [
         Expanded(
           child: ActionButton(
-            onTap: () {},
+            onTap: onAddPdfTap,
             title: 'Add PDF',
             icon: Assets.svgsAddPdfIcon,
           ),
@@ -19,7 +28,7 @@ class ActionSection extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: ActionButton(
-            onTap: () {},
+            onTap: onAddNoteTap,
             title: 'Add Note',
             icon: Assets.svgsAddNoteIcon,
           ),
@@ -27,7 +36,7 @@ class ActionSection extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: ActionButton(
-            onTap: () {},
+            onTap: onProgressTap,
             title: 'Progress',
             icon: Assets.svgsProgressIcon,
           ),

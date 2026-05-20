@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
-import 'package:study_flow/Core/const/subject_list.dart';
+import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/subject_item.dart';
 
 class MySubjectsSection extends StatelessWidget {
@@ -9,7 +10,7 @@ class MySubjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visibleSubjects = subjects.take(3).toList();
+    final visibleSubjects = context.watch<SubjectsCubit>().state.subjects.take(3).toList();
 
     return SliverGrid(
       gridDelegate: SliverQuiltedGridDelegate(
@@ -34,7 +35,11 @@ class MySubjectsSection extends StatelessWidget {
           subject: subject,
           isLarge: index == 2,
           onTap: () {
-            Navigator.pushNamed(context, Routes.subject_screen);
+            Navigator.pushNamed(
+              context,
+              Routes.subject_screen,
+              arguments: subject,
+            );
           },
         );
       }, childCount: visibleSubjects.length),

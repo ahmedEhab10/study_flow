@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_flow/Core/Widgets/custom_floatingactoinbutton.dart';
-
+import 'package:study_flow/Core/Widgets/custom_floating_action_button.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/Home_Screen_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingactoinbutton(onPressed: () {}),
+      floatingActionButton: CustomFloatingActionButton(onPressed: () {}),
       body: const SafeArea(child: HomeScreenBody()),
     );
   }

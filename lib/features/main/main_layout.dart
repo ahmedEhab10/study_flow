@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
-import 'package:study_flow/Core/resources/ConstanstManager.dart';
+import 'package:study_flow/Core/resources/constants_manager.dart';
 import 'package:study_flow/features/main/Home/presentation/Home_screen.dart';
 import 'package:study_flow/features/main/Profile/presentation/profile_screen.dart';
 import 'package:study_flow/features/main/Tasks/presentation/Tasks_screen.dart';
@@ -74,7 +74,7 @@ class _MainLayoutState extends State<MainLayout> {
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.easeOutBack,
                       child: SvgPicture.asset(
-                        Constanstmanager.navbaritems[index],
+                        ConstantsManager.navbarItems[index],
                         colorFilter: ColorFilter.mode(
                           currentIndex == index
                               ? ColorsManager.primaryDark

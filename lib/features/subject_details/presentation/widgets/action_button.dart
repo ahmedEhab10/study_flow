@@ -20,31 +20,30 @@ class ActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isDark ? Colors.grey.shade800 : Colors.grey,
+            color: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
             width: 1,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
             Container(
               width: 40.w,
               height: 40.h,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xffE2E2EC),
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: SvgPicture.asset(
                   icon,
-                  colorFilter: ColorFilter.mode(
-                    isDark ? Color(0xff005DA7) : Color(0xff005DA7),
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xff005DA7),
                     BlendMode.srcIn,
                   ),
                 ),

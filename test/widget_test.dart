@@ -1,30 +1,36 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:study_flow/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  setUpAll(() {
+    // Disable HTTP fetching for Google Fonts in tests to prevent hanging/network calls
+    GoogleFonts.config.allowRuntimeFetching = false;
+  });
+
+  testWidgets('StudyFlow splash screen smoke test', (WidgetTester tester) async {
+    // Initialize SharedPreferences mock
+    SharedPreferences.setMockInitialValues({});
+
+    // Initialize Hive in temporary directory
+    final tempDir = Directory.systemTemp.createTempSync();
+    Hive.init(tempDir.path);
+    await Hive.openBox('tasks_box');
+    await Hive.openBox('subjects_box');
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const StudyFlow());
+    await tester.pump(); // Pump a frame to let builders render
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that Splash Screen contents are shown.
+    expect(find.text('StudyFlow'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Clean up temporary Hive files
+    try {
+      tempDir.deleteSync(recursive: true);
+    } catch (_) {}
   });
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_flow/Core/Widgets/custom_floatingactoinbutton.dart';
+import 'package:study_flow/Core/Widgets/custom_floating_action_button.dart';
 import 'package:study_flow/features/main/Tasks/presentation/widgets/Task_Screen_body.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -8,7 +8,7 @@ class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: CustomFloatingactoinbutton(onPressed: () {}),
+      floatingActionButton: CustomFloatingActionButton(onPressed: () {}),
       body: SafeArea(child: TaskScreenBody()),
     );
   }

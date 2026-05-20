@@ -3,11 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_item.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:study_flow/features/main/Tasks/presentation/cubit/tasks_cubit.dart';
+
 class InformationList extends StatelessWidget {
   const InformationList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tasks = context.watch<TasksCubit>().state.tasks;
+    final completedCount = tasks.where((t) => t.isCompleted).length;
+    final totalCount = tasks.length;
+    final tasksInfo = '$completedCount/$totalCount';
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isNarrow = constraints.maxWidth < 340;
@@ -21,10 +29,10 @@ class InformationList extends StatelessWidget {
                 theinfo: '3 days',
               ),
               SizedBox(height: 12.h),
-              const InformationItem(
+              InformationItem(
                 title: 'Tasks Done',
                 icon: Assets.svgsDone,
-                theinfo: '5/12',
+                theinfo: tasksInfo,
               ),
             ],
           );
@@ -40,11 +48,11 @@ class InformationList extends StatelessWidget {
               ),
             ),
             SizedBox(width: 12.w),
-            const Expanded(
+            Expanded(
               child: InformationItem(
                 title: 'Tasks Done',
                 icon: Assets.svgsDone,
-                theinfo: '5/12',
+                theinfo: tasksInfo,
               ),
             ),
           ],
