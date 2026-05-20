@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/const/subject_list.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/subject_item.dart';
 
@@ -26,18 +27,17 @@ class MySubjectsSection extends StatelessWidget {
         ],
       ),
 
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final subject = visibleSubjects[index];
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final subject = visibleSubjects[index];
 
-          return SubjectItem(
-            subject: subject,
-            isLarge: index == 2,
-            onTap: () {},
-          );
-        },
-        childCount: visibleSubjects.length,
-      ),
+        return SubjectItem(
+          subject: subject,
+          isLarge: index == 2,
+          onTap: () {
+            Navigator.pushNamed(context, Routes.subject_screen);
+          },
+        );
+      }, childCount: visibleSubjects.length),
     );
   }
 }

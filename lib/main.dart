@@ -22,7 +22,7 @@ class StudyFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(443, 800),
+      designSize: const Size(443, 881),
       minTextAdapt: true,
       splitScreenMode: true,
 

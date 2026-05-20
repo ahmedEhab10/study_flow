@@ -3,4 +3,5 @@ abstract class Routes {
   static const String onboarding = '/onboarding';
   static const String main_layout = '/main_layout';
   static const String home = '/home';
+  static const String subject_screen = '/subject_screen';
 }

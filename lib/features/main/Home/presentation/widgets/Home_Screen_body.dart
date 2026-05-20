@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:study_flow/Core/Widgets/view_all_row.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/MySubjectsSection.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_list.dart';
-import 'package:study_flow/features/main/Home/presentation/widgets/recent_active.dart';
+import 'package:study_flow/Core/Widgets/pdf_item.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});
@@ -45,30 +46,9 @@ class HomeScreenBody extends StatelessWidget {
                 SizedBox(height: 10.h),
                 InformationList(),
                 SizedBox(height: 24.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'My Subjects',
-                      style: GoogleFonts.inter(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        'View all',
-                        style: GoogleFonts.inter(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w600,
-                          color: ColorsManager.primaryDark,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
 
+                // view all item is here
+                ViewAllRow(title: 'My Subjects'),
                 SizedBox(height: 24.h),
               ],
             ),
@@ -95,9 +75,9 @@ class HomeScreenBody extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                RecentActiveitem(),
-                SizedBox(height: 8.h),
-                RecentActiveitem(),
+                pdfitem(),
+                SizedBox(height: 6.h),
+                pdfitem(),
               ],
             ),
           ),
