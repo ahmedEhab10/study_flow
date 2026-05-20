@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
 
@@ -71,58 +72,56 @@ class _SubjectIconPainter extends CustomPainter {
 
   // Biology: DNA double helix
   void _drawBiology(Canvas canvas, Size s, Paint p, Paint f) {
-    final path1 = Path();
-    path1.moveTo(s.width * 0.25, s.height * 0.1);
-    path1.cubicTo(
-      s.width * 0.75,
-      s.height * 0.25,
-      s.width * 0.25,
-      s.height * 0.5,
-      s.width * 0.75,
-      s.height * 0.65,
-    );
-    path1.cubicTo(
-      s.width * 0.75,
-      s.height * 0.65,
-      s.width * 0.5,
-      s.height * 0.78,
-      s.width * 0.25,
-      s.height * 0.9,
-    );
+    final cx = s.width / 2;
+    final startY = s.height * 0.15;
+    final endY = s.height * 0.85;
+    final height = endY - startY;
 
+    final double cycles = 1.5;
+    final double totalAngle = cycles * 2 * 3.14159265;
+
+    final path1 = Path();
     final path2 = Path();
-    path2.moveTo(s.width * 0.75, s.height * 0.1);
-    path2.cubicTo(
-      s.width * 0.25,
-      s.height * 0.25,
-      s.width * 0.75,
-      s.height * 0.5,
-      s.width * 0.25,
-      s.height * 0.65,
-    );
-    path2.cubicTo(
-      s.width * 0.25,
-      s.height * 0.65,
-      s.width * 0.5,
-      s.height * 0.78,
-      s.width * 0.75,
-      s.height * 0.9,
-    );
+
+    final int pointsCount = 40;
+    final amplitude = s.width * 0.22;
+
+    for (int i = 0; i <= pointsCount; i++) {
+      final double t = i / pointsCount;
+      final double y = startY + t * height;
+      final double angle = t * totalAngle;
+
+      final double dx = amplitude * math.sin(angle);
+      final double x1 = cx + dx;
+      final double x2 = cx - dx;
+
+      if (i == 0) {
+        path1.moveTo(x1, y);
+        path2.moveTo(x2, y);
+      } else {
+        path1.lineTo(x1, y);
+        path2.lineTo(x2, y);
+      }
+    }
 
     canvas.drawPath(path1, p);
     canvas.drawPath(path2, p);
 
     // rungs
     final rungPaint = Paint()
-      ..color = p.color.withValues(alpha: 0.5)
+      ..color = p.color.withValues(alpha: 0.6)
       ..strokeWidth = p.strokeWidth * 0.7
       ..strokeCap = StrokeCap.round;
-    for (double t = 0.28; t <= 0.72; t += 0.22) {
-      canvas.drawLine(
-        Offset(s.width * 0.3, s.height * t),
-        Offset(s.width * 0.7, s.height * t),
-        rungPaint,
-      );
+
+    final List<double> rungTValues = [0.166, 0.5, 0.833];
+    for (final double t in rungTValues) {
+      final double y = startY + t * height;
+      final double angle = t * totalAngle;
+      final double dx = amplitude * math.sin(angle);
+      final double x1 = cx + dx;
+      final double x2 = cx - dx;
+
+      canvas.drawLine(Offset(x1, y), Offset(x2, y), rungPaint);
     }
   }
 
