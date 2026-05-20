@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:study_flow/Core/Provider/Theme_provider.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
@@ -26,15 +25,20 @@ class StudyFlow extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
 
-      builder: (context, child) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'StudyFlow',
-        theme: ThemeManager.light, // .sp is safe here
-        darkTheme: ThemeManager.dark,
-        themeMode: ThemeMode.dark,
-        onGenerateRoute: RoutesManager.onGenerateRoute,
-        initialRoute: Routes.splash,
-      ),
+      builder: (context, child) {
+        // Watch ThemeProvider so MaterialApp rebuilds whenever the theme changes
+        final themeMode = context.watch<ThemeProvider>().themeMode;
+
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'StudyFlow',
+          theme: ThemeManager.light,
+          darkTheme: ThemeManager.dark,
+          themeMode: themeMode,
+          onGenerateRoute: RoutesManager.onGenerateRoute,
+          initialRoute: Routes.splash,
+        );
+      },
     );
   }
 }
