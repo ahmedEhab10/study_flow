@@ -34,7 +34,7 @@ class InformationItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(icon, width: 28.r, height: 28.r),
+          SvgPicture.asset(icon, width: 45.r, height: 45.r),
           SizedBox(height: 8.h),
           Text(
             title,
