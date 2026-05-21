@@ -28,8 +28,8 @@ class SubjectModel {
       'name': name,
       'subtitle': subtitle,
       'progress': progress,
-      'accent': accent.value,
-      'iconBg': iconBg.value,
+      'accent': accent.toARGB32(),
+      'iconBg': iconBg.toARGB32(),
       'icon': icon.name,
       'pdfs': pdfs.map((pdf) => pdf.toJson()).toList(),
       'notes': notes.map((note) => note.toJson()).toList(),
@@ -43,12 +43,17 @@ class SubjectModel {
       progress: (json['progress'] as num).toDouble(),
       accent: Color(json['accent'] as int),
       iconBg: Color(json['iconBg'] as int),
-      icon: SubjectIcon.values.firstWhere((e) => e.name == json['icon']),
-      pdfs: (json['pdfs'] as List<dynamic>?)
+      icon: SubjectIcon.values.firstWhere(
+        (e) => e.name == json['icon'],
+        orElse: () => SubjectIcon.general,
+      ),
+      pdfs:
+          (json['pdfs'] as List<dynamic>?)
               ?.map((pdf) => PdfModel.fromJson(pdf as Map))
               .toList() ??
           const [],
-      notes: (json['notes'] as List<dynamic>?)
+      notes:
+          (json['notes'] as List<dynamic>?)
               ?.map((note) => NoteModel.fromJson(note as Map))
               .toList() ??
           const [],
@@ -79,6 +84,7 @@ class SubjectModel {
 }
 
 enum SubjectIcon {
+  general,
   biology,
   physics,
   history,

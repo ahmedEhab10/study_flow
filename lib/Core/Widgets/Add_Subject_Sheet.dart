@@ -1,12 +1,19 @@
-import 'dart:ui' as BorderType;
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Models/SubjectColor.dart';
+import 'package:study_flow/Core/Models/Subject_Model.dart' as subject_model;
+import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
+
+class _SubjectIconOption {
+  final subject_model.SubjectIcon icon;
+  final String label;
+
+  const _SubjectIconOption({required this.icon, required this.label});
+}
 
 class AddSubjectSheet extends StatefulWidget {
   final String title;
@@ -44,11 +51,36 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
   ];
 
   static const _icons = [
-    SubjectIcon(icon: Icons.science_outlined, label: 'Science'),
-    SubjectIcon(icon: Icons.school_outlined, label: 'School'),
-    SubjectIcon(icon: Icons.calculate_outlined, label: 'Math'),
-    SubjectIcon(icon: Icons.menu_book_outlined, label: 'Literature'),
-    SubjectIcon(icon: Icons.computer_outlined, label: 'Computer Science'),
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.general,
+      label: 'General',
+    ),
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.biology,
+      label: 'Biology',
+    ),
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.physics,
+      label: 'Physics',
+    ),
+
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.mathematics,
+      label: 'Mathematics',
+    ),
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.chemistry,
+      label: 'Chemistry',
+    ),
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.literature,
+      label: 'Literature',
+    ),
+
+    _SubjectIconOption(
+      icon: subject_model.SubjectIcon.computerScience,
+      label: 'Computer Science',
+    ),
   ];
 
   Color get _accent => _colors[_selectedColor].color;
@@ -249,13 +281,11 @@ class _TextInputWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final Color accent;
-  final int maxLines;
 
   const _TextInputWidget({
     required this.controller,
     required this.hint,
     required this.accent,
-    this.maxLines = 1,
   });
 
   @override
@@ -264,7 +294,6 @@ class _TextInputWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
         controller: controller,
-        maxLines: maxLines,
         style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
           hintText: hint,
@@ -336,7 +365,7 @@ class _ColorPickerWidget extends StatelessWidget {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: colors[i].color.withOpacity(0.5),
+                            color: colors[i].color.withValues(alpha: 0.5),
                             blurRadius: 0,
                             spreadRadius: 2,
                           ),
@@ -364,7 +393,7 @@ class _ColorPickerWidget extends StatelessWidget {
 // ─────────────────────────────────────────────
 
 class _IconPickerWidget extends StatelessWidget {
-  final List<SubjectIcon> icons;
+  final List<_SubjectIconOption> icons;
   final int selected;
   final Color accent;
   final ValueChanged<int> onChanged;
@@ -380,44 +409,48 @@ class _IconPickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(icons.length, (i) {
-          final isSelected = i == selected;
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Tooltip(
-              message: icons[i].label,
-              child: GestureDetector(
-                onTap: () => onChanged(i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? accent
-                        : Theme.of(context).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(icons.length, (i) {
+            final isSelected = i == selected;
+            return Padding(
+              padding: EdgeInsets.only(right: i == icons.length - 1 ? 0 : 8),
+              child: Tooltip(
+                message: icons[i].label,
+                child: GestureDetector(
+                  onTap: () => onChanged(i),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
                       color: isSelected
                           ? accent
-                          : Theme.of(context).colorScheme.outlineVariant,
-                      width: 1.5,
+                          : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isSelected
+                            ? accent
+                            : Theme.of(context).colorScheme.outlineVariant,
+                        width: 1.5,
+                      ),
                     ),
-                  ),
-                  child: Icon(
-                    icons[i].icon,
-                    size: 20,
-                    color: isSelected
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    child: Center(
+                      child: SubjectIconWidget(
+                        icon: icons[i].icon,
+                        color: isSelected ? Colors.white : accent,
+                        size: 26,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

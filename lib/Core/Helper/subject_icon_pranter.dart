@@ -43,6 +43,9 @@ class _SubjectIconPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     switch (icon) {
+      case SubjectIcon.general:
+        _drawGeneral(canvas, size, paint, fill);
+        break;
       case SubjectIcon.biology:
         _drawBiology(canvas, size, paint, fill);
         break;
@@ -67,6 +70,55 @@ class _SubjectIconPainter extends CustomPainter {
       case SubjectIcon.computerScience:
         _drawComputerScience(canvas, size, paint, fill);
         break;
+    }
+  }
+
+  // General: simple study notebook with a bookmark
+  void _drawGeneral(Canvas canvas, Size s, Paint p, Paint f) {
+    final bookRect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(
+        s.width * 0.2,
+        s.height * 0.12,
+        s.width * 0.6,
+        s.height * 0.76,
+      ),
+      Radius.circular(s.width * 0.08),
+    );
+
+    canvas.drawRRect(bookRect, p);
+
+    final spinePaint = Paint()
+      ..color = p.color.withValues(alpha: 0.55)
+      ..strokeWidth = p.strokeWidth * 0.75
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(
+      Offset(s.width * 0.34, s.height * 0.2),
+      Offset(s.width * 0.34, s.height * 0.8),
+      spinePaint,
+    );
+
+    final bookmark = Path()
+      ..moveTo(s.width * 0.58, s.height * 0.13)
+      ..lineTo(s.width * 0.7, s.height * 0.13)
+      ..lineTo(s.width * 0.7, s.height * 0.42)
+      ..lineTo(s.width * 0.64, s.height * 0.36)
+      ..lineTo(s.width * 0.58, s.height * 0.42)
+      ..close();
+
+    canvas.drawPath(bookmark, f..color = f.color.withValues(alpha: 0.28));
+
+    final linePaint = Paint()
+      ..color = p.color.withValues(alpha: 0.5)
+      ..strokeWidth = p.strokeWidth * 0.6
+      ..strokeCap = StrokeCap.round;
+
+    for (double y = 0.36; y <= 0.64; y += 0.14) {
+      canvas.drawLine(
+        Offset(s.width * 0.43, s.height * y),
+        Offset(s.width * 0.68, s.height * y),
+        linePaint,
+      );
     }
   }
 
