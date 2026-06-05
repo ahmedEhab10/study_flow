@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 
 class ViewAllRow extends StatelessWidget {
-  const ViewAllRow({super.key, required this.title});
+  const ViewAllRow({super.key, required this.title, this.onTap});
   final String title;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ViewAllRow extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: onTap,
           child: Text(
             'View all',
             style: GoogleFonts.inter(

@@ -1,27 +1,42 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
+import 'package:study_flow/Core/Models/Pdf_Model.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
-import 'package:study_flow/Core/Widgets/note_item.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
+import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/action_section.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/add_note_sheet.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/analytics_item.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/course_completion_container.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/expandable_note_item.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_item.dart';
 
 class SubjectScreenBody extends StatelessWidget {
   final SubjectModel subject;
+  final bool isProgressMode;
+  final VoidCallback? onProgressTap;
 
-  const SubjectScreenBody({super.key, required this.subject});
+  const SubjectScreenBody({
+    super.key,
+    required this.subject,
+    this.isProgressMode = false,
+    this.onProgressTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bottomScrollPadding = 75.0 + MediaQuery.paddingOf(context).bottom;
+    final cubit = context.read<SubjectsCubit>();
 
     return CustomScrollView(
       slivers: [
@@ -64,16 +79,83 @@ class SubjectScreenBody extends StatelessWidget {
                 CourseCompletionContainer(progress: subject.progress),
                 const SizedBox(height: 24),
                 ActionSection(
-                  onAddPdfTap: () {
-                    // Handled in Phase 4
+                  onAddPdfTap: () async {
+                    try {
+                      final result = await FilePicker.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['pdf'],
+                        allowMultiple: true,
+                      );
+                      if (result != null) {
+                        if (!context.mounted) return;
+                        final appDir = await getApplicationDocumentsDirectory();
+                        final pdfsDir = Directory('${appDir.path}/pdfs');
+                        if (!await pdfsDir.exists()) {
+                          await pdfsDir.create(recursive: true);
+                        }
+
+                        int largeFileCount = 0;
+                        for (var file in result.files) {
+                          if (file.size <= 25 * 1024 * 1024) {
+                            if (file.path != null) {
+                              final originalFile = File(file.path!);
+                              final uniqueName =
+                                  '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+                              final targetPath = '${pdfsDir.path}/$uniqueName';
+                              await originalFile.copy(targetPath);
+
+                              final pdf = PdfModel(
+                                title: file.name,
+                                subjectName: subject.name,
+                                timeAgo: 'Opened just now',
+                                filePath: targetPath,
+                              );
+                              cubit.addPdfToSubject(subject.name, pdf);
+                            }
+                          } else {
+                            largeFileCount++;
+                          }
+                        }
+
+                        if (context.mounted) {
+                          if (largeFileCount > 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  '$largeFileCount file(s) exceeded the 25MB limit and were not added.',
+                                ),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.error,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('PDF(s) uploaded successfully!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          }
+                        }
+                      }
+                    } catch (e) {
+                      debugPrint('Error picking/uploading PDFs: $e');
+                    }
                   },
-                  onAddNoteTap: () {
-                    // Handled in Phase 3/4
-                  },
-                  onProgressTap: () {
-                    // Dynamic stats
-                  },
+                  onAddNoteTap: () => showAddNoteSheet(context, subject.name),
+                  onProgressTap: onProgressTap,
                 ),
+                if (isProgressMode) ...[
+                  SizedBox(height: 12.h),
+                  Text(
+                    'Tap checkboxes to mark items as complete',
+                    style: GoogleFonts.inter(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorsManager.primary,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 24),
                 const ViewAllRow(title: 'Study Materials'),
                 const SizedBox(height: 16),
@@ -83,7 +165,19 @@ class SubjectScreenBody extends StatelessWidget {
                     'No PDFs uploaded yet. Tap "Add PDF" to upload study materials.',
                   )
                 else
-                  ...subject.pdfs.map((pdf) => PdfItem(pdf: pdf)),
+                  ...subject.pdfs.map(
+                    (pdf) => PdfItem(
+                      pdf: pdf,
+                      isProgressMode: isProgressMode,
+                      onCompletionToggled: isProgressMode
+                          ? (isCompleted) => cubit.updatePdfCompletion(
+                                subject.name,
+                                pdf.id,
+                                isCompleted,
+                              )
+                          : null,
+                    ),
+                  ),
                 const SizedBox(height: 16),
                 const ViewAllRow(title: 'Recent Notes'),
                 const SizedBox(height: 16),
@@ -93,10 +187,22 @@ class SubjectScreenBody extends StatelessWidget {
                     'No notes created yet. Tap "Add Note" to write one.',
                   )
                 else
-                  ...subject.notes.map((note) => Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: NoteItem(note: note),
-                      )),
+                  ...subject.notes.map(
+                    (note) => Padding(
+                      padding: EdgeInsets.only(bottom: 12.h),
+                      child: ExpandableNoteItem(
+                        note: note,
+                        isProgressMode: isProgressMode,
+                        onCompletionToggled: isProgressMode
+                            ? (isCompleted) => cubit.updateNoteCompletion(
+                                  subject.name,
+                                  note.id,
+                                  isCompleted,
+                                )
+                            : null,
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 16),
                 Text(
                   'Analytics',

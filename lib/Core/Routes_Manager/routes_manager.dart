@@ -6,6 +6,7 @@ import 'package:study_flow/features/Splash/presentation/splash_screen.dart';
 import 'package:study_flow/features/add_task/Presentation/add_task_sceen.dart';
 import 'package:study_flow/features/subject_details/presentation/subject_details_screen.dart';
 import 'package:study_flow/features/main/main_layout.dart';
+import 'package:study_flow/features/main/Home/presentation/all_subjects_screen.dart';
 
 abstract class RoutesManager {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -22,6 +23,10 @@ abstract class RoutesManager {
         final subject = settings.arguments as SubjectModel;
         return MaterialPageRoute(
           builder: (context) => SubjectDetailsScreen(subject: subject),
+        );
+      case Routes.all_subjects:
+        return MaterialPageRoute(
+          builder: (context) => const AllSubjectsScreen(),
         );
 
       case Routes.add_task:

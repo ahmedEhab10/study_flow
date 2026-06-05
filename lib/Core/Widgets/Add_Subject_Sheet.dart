@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +23,13 @@ class AddSubjectSheet extends StatefulWidget {
   final String inputLabel;
   final String inputHint;
   final String ctaLabel;
-  final void Function(String value)? onSubmit;
+  final Future<void> Function(
+    String name,
+    Color accent,
+    subject_model.SubjectIcon icon,
+    List<PlatformFile> pdfFiles,
+  )?
+  onSubmit;
 
   const AddSubjectSheet({
     super.key,
@@ -41,6 +49,40 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
   final _controller = TextEditingController();
   int _selectedColor = 0;
   int _selectedIcon = 0;
+  final List<PlatformFile> _selectedFiles = [];
+  bool _submitting = false;
+
+  Future<void> _pickFiles() async {
+    try {
+      final result = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+        allowMultiple: true,
+      );
+      if (result != null) {
+        final List<PlatformFile> validFiles = [];
+        for (var file in result.files) {
+          if (file.size <= 25 * 1024 * 1024) {
+            validFiles.add(file);
+          } else {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('"${file.name}" exceeds the 25MB size limit.'),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ),
+              );
+            }
+          }
+        }
+        setState(() {
+          _selectedFiles.addAll(validFiles);
+        });
+      }
+    } catch (e) {
+      debugPrint('Error picking files: $e');
+    }
+  }
 
   static const _colors = [
     SubjectColor(color: Color(0xFF2563EB), label: 'Blue'),
@@ -91,10 +133,34 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
     super.dispose();
   }
 
-  void _handleSubmit() {
+  void _handleSubmit() async {
     final value = _controller.text.trim();
-    widget.onSubmit?.call(value);
-    Navigator.of(context).pop();
+    if (value.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please enter a subject name'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _submitting = true;
+    });
+
+    if (widget.onSubmit != null) {
+      await widget.onSubmit!(
+        value,
+        _accent,
+        _icons[_selectedIcon].icon,
+        _selectedFiles,
+      );
+    }
+
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -113,58 +179,116 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
         ),
         child: SafeArea(
           top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 8),
-              // ── Drag handle
-              const _DragHandle(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 8),
+                // ── Drag handle
+                const _DragHandle(),
 
-              // ── Header
-              _SheetHeader(title: widget.title, subtitle: widget.subtitle),
+                // ── Header
+                _SheetHeader(title: widget.title, subtitle: widget.subtitle),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-              // ── Text input widget
-              _SectionLabel(widget.inputLabel),
-              _TextInputWidget(
-                controller: _controller,
-                hint: widget.inputHint,
-                accent: _accent,
-              ),
-              SizedBox(height: 12),
+                // ── Text input widget
+                _SectionLabel(widget.inputLabel),
+                _TextInputWidget(
+                  controller: _controller,
+                  hint: widget.inputHint,
+                  accent: _accent,
+                ),
+                SizedBox(height: 12),
 
-              // ── Color picker widget
-              const _SectionLabel('Accent Color'),
-              _ColorPickerWidget(
-                colors: _colors,
-                selected: _selectedColor,
-                onChanged: (i) => setState(() => _selectedColor = i),
-              ),
+                // ── Color picker widget
+                const _SectionLabel('Accent Color'),
+                _ColorPickerWidget(
+                  colors: _colors,
+                  selected: _selectedColor,
+                  onChanged: (i) => setState(() => _selectedColor = i),
+                ),
 
-              // ── Icon picker widget
-              const _SectionLabel('Subject Icon'),
-              _IconPickerWidget(
-                icons: _icons,
-                selected: _selectedIcon,
-                accent: _accent,
-                onChanged: (i) => setState(() => _selectedIcon = i),
-              ),
+                // ── Icon picker widget
+                const _SectionLabel('Subject Icon'),
+                _IconPickerWidget(
+                  icons: _icons,
+                  selected: _selectedIcon,
+                  accent: _accent,
+                  onChanged: (i) => setState(() => _selectedIcon = i),
+                ),
 
-              // ── Upload widget
-              const _SectionLabel('Study Materials'),
-              const _UploadWidget(),
+                // ── Upload widget
+                const _SectionLabel('Study Materials'),
+                _UploadWidget(onTap: _pickFiles),
 
-              // ── CTA widget
-              _CtaWidget(
-                label: widget.ctaLabel,
-                accent: _accent,
-                onTap: _handleSubmit,
-              ),
+                // ── Selected files list
+                if (_selectedFiles.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
+                    child: Column(
+                      children: _selectedFiles.map((file) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.picture_as_pdf_rounded,
+                                color: _accent,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  file.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.close_rounded, size: 16),
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedFiles.remove(file);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
 
-              const SizedBox(height: 8),
-            ],
+                // ── CTA widget
+                if (_submitting)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                    child: Center(
+                      child: CircularProgressIndicator(color: _accent),
+                    ),
+                  )
+                else
+                  _CtaWidget(
+                    label: widget.ctaLabel,
+                    accent: _accent,
+                    onTap: _handleSubmit,
+                  ),
+
+                const SizedBox(height: 8),
+              ],
+            ),
           ),
         ),
       ),
@@ -461,7 +585,8 @@ class _IconPickerWidget extends StatelessWidget {
 // ─────────────────────────────────────────────
 
 class _UploadWidget extends StatefulWidget {
-  const _UploadWidget();
+  final VoidCallback onTap;
+  const _UploadWidget({required this.onTap});
 
   @override
   State<_UploadWidget> createState() => _UploadWidgetState();
@@ -475,9 +600,7 @@ class _UploadWidgetState extends State<_UploadWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
-        onTap: () {
-          // TODO: wire up file_picker or image_picker
-        },
+        onTap: widget.onTap,
         child: MouseRegion(
           onEnter: (_) => setState(() => _hovering = true),
           onExit: (_) => setState(() => _hovering = false),

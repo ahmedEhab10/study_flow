@@ -1,47 +1,74 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:study_flow/Core/Widgets/custom_input_text_faild.dart';
-import 'package:study_flow/Core/resources/Colors_Manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:study_flow/Core/Models/Pdf_Model.dart';
+import 'package:study_flow/Core/Models/Subject_Model.dart' as subject_model;
 import 'package:study_flow/Core/Widgets/Add_Subject_Sheet.dart';
+import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 
 void showModernBottomSheet(BuildContext context) {
-  final theme = Theme.of(context);
-  final isDark = theme.brightness == Brightness.dark;
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    // backgroundColor: Colors.transparent,
-    // barrierColor: Colors.black.withOpacity(.4),
-    builder: (context) {
+    builder: (sheetContext) {
       return AddSubjectSheet(
         title: 'Add New Subject',
         subtitle: 'Organize your study materials smarter',
         inputLabel: 'Subject Name',
         inputHint: 'e.g. Molecular Biology',
         ctaLabel: ' Add Subject',
+        onSubmit: (name, accentColor, icon, pdfFiles) async {
+          final List<PdfModel> pdfModels = [];
+          try {
+            final appDir = await getApplicationDocumentsDirectory();
+            final pdfsDir = Directory('${appDir.path}/pdfs');
+            if (!await pdfsDir.exists()) {
+              await pdfsDir.create(recursive: true);
+            }
+
+            for (var file in pdfFiles) {
+              if (file.path != null) {
+                final originalFile = File(file.path!);
+                final uniqueName = '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+                final targetPath = '${pdfsDir.path}/$uniqueName';
+                await originalFile.copy(targetPath);
+
+                pdfModels.add(
+                  PdfModel(
+                    title: file.name,
+                    subjectName: name,
+                    timeAgo: 'Opened just now',
+                    filePath: targetPath,
+                  ),
+                );
+              }
+            }
+          } catch (e) {
+            debugPrint('Error saving PDFs in bottom sheet: $e');
+          }
+
+          final newSubject = subject_model.SubjectModel(
+            name: name,
+            subtitle: '${pdfModels.length} PDFs • 0 Notes',
+            progress: 0.0,
+            accent: accentColor,
+            iconBg: accentColor.withValues(alpha: 0.1),
+            icon: icon,
+            pdfs: pdfModels,
+            notes: [],
+          );
+
+          if (context.mounted) {
+            context.read<SubjectsCubit>().addSubject(newSubject);
+          }
+        },
       );
     },
   );
 }
 
-class _DragHandle extends StatelessWidget {
-  const _DragHandle();
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 4),
-        width: 50,
-        height: 4,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.outlineVariant,
-          borderRadius: BorderRadius.circular(99),
-        ),
-      ),
-    );
-  }
-}
 
 
 

@@ -24,12 +24,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFFFF7ED),
     icon: SubjectIcon.history,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'World War I Summary.pdf',
         subjectName: 'Modern History',
         timeAgo: 'Opened 4 hours ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Industrial Revolution.pdf',
         subjectName: 'Modern History',
         timeAgo: 'Opened 2 days ago',
@@ -52,12 +52,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFFEF2F2),
     icon: SubjectIcon.mathematics,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Calculus Limits.pdf',
         subjectName: 'Mathematics',
         timeAgo: 'Opened 5 hours ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Linear Algebra Basics.pdf',
         subjectName: 'Mathematics',
         timeAgo: 'Opened 1 week ago',
@@ -80,12 +80,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFECFEFF),
     icon: SubjectIcon.chemistry,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Organic Chemistry Intro.pdf',
         subjectName: 'Chemistry',
         timeAgo: 'Opened 3 hours ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Periodic Table Guide.pdf',
         subjectName: 'Chemistry',
         timeAgo: 'Opened 1 day ago',
@@ -108,7 +108,7 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFFDF2F8),
     icon: SubjectIcon.literature,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Shakespeare Hamlet Analysis.pdf',
         subjectName: 'Literature',
         timeAgo: 'Opened 6 days ago',
@@ -131,7 +131,7 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFECFDF5),
     icon: SubjectIcon.geography,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Tectonic Plates Map.pdf',
         subjectName: 'Geography',
         timeAgo: 'Opened 2 weeks ago',
@@ -154,12 +154,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFF5F3FF),
     icon: SubjectIcon.computerScience,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Dart Cheat Sheet.pdf',
         subjectName: 'Computer Science',
         timeAgo: 'Opened 1 hour ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Flutter Design Patterns.pdf',
         subjectName: 'Computer Science',
         timeAgo: 'Opened 2 hours ago',
@@ -182,12 +182,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFDCFCE7),
     icon: SubjectIcon.biology,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Cellular Structure.pdf',
         subjectName: 'Biology',
         timeAgo: 'Opened 2 hours ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Genetic Code & RNA.pdf',
         subjectName: 'Biology',
         timeAgo: 'Opened 5 hours ago',
@@ -216,12 +216,12 @@ final List<SubjectModel> subjects = [
     iconBg: const Color(0xFFEEF2FF),
     icon: SubjectIcon.physics,
     pdfs: [
-      const PdfModel(
+      PdfModel(
         title: 'Kinematics Formulas.pdf',
         subjectName: 'Physics',
         timeAgo: 'Opened 1 day ago',
       ),
-      const PdfModel(
+      PdfModel(
         title: 'Newtonian Mechanics.pdf',
         subjectName: 'Physics',
         timeAgo: 'Opened 3 days ago',

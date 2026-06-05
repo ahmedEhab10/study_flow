@@ -7,6 +7,8 @@ import 'package:study_flow/Core/Provider/Theme_provider.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Routes_Manager/routes_manager.dart';
 import 'package:study_flow/config/theme/Theme_Manager.dart';
+import 'package:study_flow/Core/Services/hive_service.dart';
+import 'package:study_flow/features/main/Home/data/repositories/subject_repository_impl.dart';
 import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/features/main/Tasks/presentation/cubit/tasks_cubit.dart';
 
@@ -32,7 +34,11 @@ class StudyFlow extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<TasksCubit>(create: (_) => TasksCubit()),
-        BlocProvider<SubjectsCubit>(create: (_) => SubjectsCubit()),
+        BlocProvider<SubjectsCubit>(
+          create: (_) => SubjectsCubit(
+            SubjectRepositoryImpl(HiveService()),
+          ),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(443, 881),

@@ -104,9 +104,9 @@ class SubjectItem extends StatelessWidget {
 
                     /// SUBTITLE
                     Text(
+                      '${subject.pdfs.length} PDFs • ${subject.notes.length} Notes',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      subject.subtitle,
                       style: GoogleFonts.inter(
                         color: theme.colorScheme.onSurface.withOpacity(0.7),
                         fontSize: 13.sp,

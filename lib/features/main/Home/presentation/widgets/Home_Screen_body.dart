@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
-import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/MySubjectsSection.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_list.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
@@ -48,7 +48,12 @@ class HomeScreenBody extends StatelessWidget {
                 SizedBox(height: 24.h),
 
                 // view all item is here
-                ViewAllRow(title: 'My Subjects'),
+                ViewAllRow(
+                  title: 'My Subjects',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.all_subjects);
+                  },
+                ),
                 SizedBox(height: 24.h),
               ],
             ),
