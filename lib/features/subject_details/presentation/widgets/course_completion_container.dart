@@ -13,7 +13,7 @@ class CourseCompletionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final percentage = (progress * 100).toInt();
-    
+
     return Container(
       width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
@@ -73,7 +73,9 @@ class CourseCompletionContainer extends StatelessWidget {
                         SvgPicture.asset('assets/Svgs/doing_great_icon.svg'),
                         const SizedBox(width: 4),
                         Text(
-                          percentage > 50 ? "You're doing great!" : "Keep pushing!",
+                          percentage > 50
+                              ? "You're doing great!"
+                              : "Keep pushing!",
                           style: GoogleFonts.inter(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
@@ -95,7 +97,7 @@ class CourseCompletionContainer extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: value,
                         minHeight: 7.r,
-                        backgroundColor: ColorsManager.primaryDark,
+                        backgroundColor: ColorsManager.white,
                         valueColor: const AlwaysStoppedAnimation(
                           ColorsManager.primary,
                         ),

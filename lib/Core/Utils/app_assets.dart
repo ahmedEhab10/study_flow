@@ -2,6 +2,10 @@
 class Assets {
   Assets._();
   
+  /// Assets for imagesAnalyticsBackground
+  /// assets/Images/analytics_background.png
+  static const String imagesAnalyticsBackground = "assets/Images/analytics_background.png";
+
   /// Assets for imagesAppIconPng
   /// assets/Images/app_icon_png.png
   static const String imagesAppIconPng = "assets/Images/app_icon_png.png";
@@ -54,6 +58,10 @@ class Assets {
   /// assets/Svgs/app_icon.svg
   static const String svgsAppIcon = "assets/Svgs/app_icon.svg";
 
+  /// Assets for svgsAttatchment
+  /// assets/Svgs/attatchment.svg
+  static const String svgsAttatchment = "assets/Svgs/attatchment.svg";
+
   /// Assets for svgsBiolgy
   /// assets/Svgs/biolgy.svg
   static const String svgsBiolgy = "assets/Svgs/biolgy.svg";
@@ -69,6 +77,10 @@ class Assets {
   /// Assets for svgsCompletIcon
   /// assets/Svgs/complet_icon.svg
   static const String svgsCompletIcon = "assets/Svgs/complet_icon.svg";
+
+  /// Assets for svgsCustomTimeIcon
+  /// assets/Svgs/custom_time_icon.svg
+  static const String svgsCustomTimeIcon = "assets/Svgs/custom_time_icon.svg";
 
   /// Assets for svgsDoingGreatIcon
   /// assets/Svgs/doing_great_icon.svg
@@ -133,6 +145,18 @@ class Assets {
   /// Assets for svgsTime
   /// assets/Svgs/time.svg
   static const String svgsTime = "assets/Svgs/time.svg";
+
+  /// Assets for svgsTimeGrayIcon
+  /// assets/Svgs/Time_gray_Icon.svg
+  static const String svgsTimeGrayIcon = "assets/Svgs/Time_gray_Icon.svg";
+
+  /// Assets for svgsTodayIcon
+  /// assets/Svgs/today_icon.svg
+  static const String svgsTodayIcon = "assets/Svgs/today_icon.svg";
+
+  /// Assets for svgsTommrowIcon
+  /// assets/Svgs/tommrow_icon.svg
+  static const String svgsTommrowIcon = "assets/Svgs/tommrow_icon.svg";
 
   /// Assets for svgsUnselactedHomeIcon
   /// assets/Svgs/unselacted_home_icon.svg

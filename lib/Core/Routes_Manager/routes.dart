@@ -4,4 +4,5 @@ abstract class Routes {
   static const String main_layout = '/main_layout';
   static const String home = '/home';
   static const String subject_screen = '/subject_screen';
+  static const String add_task = '/add_task';
 }

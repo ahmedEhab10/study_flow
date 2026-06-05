@@ -3,6 +3,18 @@ import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Models/Pdf_Model.dart';
 import 'package:study_flow/Core/Models/Note_Model.dart';
 
+List<String> subjectsNamelist = [
+  'general',
+  'biology',
+  'physics',
+  'history',
+  'mathematics',
+  'chemistry',
+  'literature',
+  'geography',
+  'computerScience',
+];
+
 final List<SubjectModel> subjects = [
   SubjectModel(
     name: 'Modern History',

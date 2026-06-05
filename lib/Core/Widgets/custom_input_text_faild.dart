@@ -25,9 +25,9 @@ class CustomInputTextFaild extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: GoogleFonts.inter(
-            fontSize: 12,
-
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            fontSize: 16,
+            color: Color(0xff717783),
+            fontWeight: FontWeight.w500,
           ),
           filled: true,
           fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,

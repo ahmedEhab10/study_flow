@@ -576,7 +576,7 @@ class _CtaWidget extends StatelessWidget {
       child: FilledButton.icon(
         onPressed: onTap,
         style: FilledButton.styleFrom(
-          backgroundColor: accent,
+          backgroundColor: ColorsManager.primaryDark,
           foregroundColor: Colors.white,
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(
