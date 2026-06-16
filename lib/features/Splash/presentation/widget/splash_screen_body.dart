@@ -72,7 +72,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody>
     if (!mounted) return;
     Navigator.pushReplacementNamed(
       context,
-      done ? Routes.onboarding : Routes.onboarding,
+      done ? Routes.main_layout : Routes.onboarding,
     );
   }
 
