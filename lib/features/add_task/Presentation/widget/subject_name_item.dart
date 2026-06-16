@@ -20,7 +20,7 @@ class SubjectNameItem extends StatelessWidget {
             ? Colors.green
             : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: const Color(0x4CC1C7D3)),
+          side: const BorderSide(width: 1, color: Color(0x4CC1C7D3)),
           borderRadius: BorderRadius.circular(9999),
         ),
       ),
@@ -31,7 +31,6 @@ class SubjectNameItem extends StatelessWidget {
               ? Colors.white
               : (isDark ? Colors.white : const Color(0xFF414751)),
           fontSize: 16,
-
           fontWeight: FontWeight.w700,
         ),
       ),

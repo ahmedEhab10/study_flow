@@ -5,6 +5,8 @@ import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/MySubjectsSection.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
 
 class HomeScreenBody extends StatelessWidget {
@@ -13,9 +15,13 @@ class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
     final bottomScrollPadding =
         75.0 + MediaQuery.paddingOf(context).bottom + 24.h;
+
+    final subjects = context.watch<SubjectsCubit>().state.subjects;
+    final allPdfs = subjects.expand((s) => s.pdfs).toList();
+    // Gather all PDFs and reverse to show the most recent first
+    final recentPdfs = allPdfs.reversed.take(3).toList();
 
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
@@ -80,9 +86,36 @@ class HomeScreenBody extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const PdfItem(),
-                SizedBox(height: 6.h),
-                const PdfItem(),
+                const SizedBox(height: 12),
+                if (recentPdfs.isEmpty)
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(20.r),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.08),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'No recent PDFs uploaded yet.',
+                        style: GoogleFonts.inter(
+                          fontSize: 14.sp,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  ...recentPdfs.map(
+                    (pdf) => Padding(
+                      padding: EdgeInsets.only(bottom: 6.h),
+                      child: PdfItem(pdf: pdf),
+                    ),
+                  ),
               ],
             ),
           ),

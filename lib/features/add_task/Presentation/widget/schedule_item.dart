@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:study_flow/Core/Utils/app_assets.dart';
+import 'package:study_flow/Core/resources/Colors_Manager.dart';
 
 class ScheduleItem extends StatelessWidget {
   const ScheduleItem({
@@ -19,36 +19,58 @@ class ScheduleItem extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 12.r),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOutCubic,
+      padding: EdgeInsets.symmetric(vertical: 14.r),
       decoration: ShapeDecoration(
-        color: isSelected ? Colors.green : theme.colorScheme.surface,
+        color: isSelected 
+            ? (isDark ? ColorsManager.primary.withValues(alpha: 0.2) : ColorsManager.primary.withValues(alpha: 0.08))
+            : theme.colorScheme.surface,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(width: 1.5, color: Color(0x19717783)),
+          side: BorderSide(
+            width: 2, 
+            color: isSelected 
+                ? ColorsManager.primary 
+                : (isDark ? Colors.grey.shade800 : const Color(0x19717783)),
+          ),
           borderRadius: BorderRadius.circular(16.r),
         ),
-        shadows: const [
+        shadows: [
           BoxShadow(
-            color: Color(0x0C000000),
-            blurRadius: 2,
-            offset: Offset(0, 1),
-            spreadRadius: 0,
+            color: isSelected 
+                ? ColorsManager.primary.withValues(alpha: 0.1)
+                : const Color(0x0C000000),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.asset(
+            icon,
+            colorFilter: ColorFilter.mode(
+              isSelected 
+                  ? ColorsManager.primary 
+                  : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
+              BlendMode.srcIn,
+            ),
+          ),
           SizedBox(height: 8.h),
           Text(
             title,
             style: GoogleFonts.inter(
-              color: theme.colorScheme.onSurface,
-              fontSize: 16.sp,
+              color: isSelected 
+                  ? ColorsManager.primary 
+                  : theme.colorScheme.onSurface,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w700,
               height: 1.35,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

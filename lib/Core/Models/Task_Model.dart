@@ -5,6 +5,7 @@ class TaskModel {
   final String? pdfTitle;
   final bool isCompleted;
   final String dueCategory; // 'today', 'tomorrow'
+  final String? taskTime; // e.g. '9:00 AM'
 
   const TaskModel({
     required this.id,
@@ -13,6 +14,7 @@ class TaskModel {
     this.pdfTitle,
     required this.isCompleted,
     required this.dueCategory,
+    this.taskTime,
   });
 
   Map<String, dynamic> toJson() {
@@ -23,6 +25,7 @@ class TaskModel {
       'pdfTitle': pdfTitle,
       'isCompleted': isCompleted,
       'dueCategory': dueCategory,
+      'taskTime': taskTime,
     };
   }
 
@@ -34,6 +37,7 @@ class TaskModel {
       pdfTitle: json['pdfTitle'] as String?,
       isCompleted: json['isCompleted'] as bool,
       dueCategory: json['dueCategory'] as String,
+      taskTime: json['taskTime'] as String?,
     );
   }
 
@@ -44,6 +48,7 @@ class TaskModel {
     String? pdfTitle,
     bool? isCompleted,
     String? dueCategory,
+    String? taskTime,
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -52,6 +57,7 @@ class TaskModel {
       pdfTitle: pdfTitle ?? this.pdfTitle,
       isCompleted: isCompleted ?? this.isCompleted,
       dueCategory: dueCategory ?? this.dueCategory,
+      taskTime: taskTime ?? this.taskTime,
     );
   }
 }

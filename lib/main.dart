@@ -10,6 +10,7 @@ import 'package:study_flow/config/theme/Theme_Manager.dart';
 import 'package:study_flow/Core/Services/hive_service.dart';
 import 'package:study_flow/features/main/Home/data/repositories/subject_repository_impl.dart';
 import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
+import 'package:study_flow/features/main/Tasks/data/repositories/task_repository_impl.dart';
 import 'package:study_flow/features/main/Tasks/presentation/cubit/tasks_cubit.dart';
 
 void main() async {
@@ -33,7 +34,9 @@ class StudyFlow extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<TasksCubit>(create: (_) => TasksCubit()),
+        BlocProvider<TasksCubit>(
+          create: (_) => TasksCubit(TaskRepositoryImpl()),
+        ),
         BlocProvider<SubjectsCubit>(
           create: (_) => SubjectsCubit(
             SubjectRepositoryImpl(HiveService()),

@@ -85,11 +85,19 @@ class TaskScreenBody extends StatelessWidget {
                   final task = todayTasks[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TaskContainer(
-                      task: task,
-                      onChanged: (val) {
-                        context.read<TasksCubit>().toggleTaskStatus(task.id);
+                    child: Dismissible(
+                      key: ValueKey(task.id),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (_) {
+                        context.read<TasksCubit>().deleteTask(task.id);
                       },
+                      background: _buildDeleteBackground(),
+                      child: TaskContainer(
+                        task: task,
+                        onChanged: (val) {
+                          context.read<TasksCubit>().toggleTaskStatus(task.id);
+                        },
+                      ),
                     ),
                   );
                 },
@@ -129,11 +137,19 @@ class TaskScreenBody extends StatelessWidget {
                   final task = tomorrowTasks[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TaskContainer(
-                      task: task,
-                      onChanged: (val) {
-                        context.read<TasksCubit>().toggleTaskStatus(task.id);
+                    child: Dismissible(
+                      key: ValueKey(task.id),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (_) {
+                        context.read<TasksCubit>().deleteTask(task.id);
                       },
+                      background: _buildDeleteBackground(),
+                      child: TaskContainer(
+                        task: task,
+                        onChanged: (val) {
+                          context.read<TasksCubit>().toggleTaskStatus(task.id);
+                        },
+                      ),
                     ),
                   );
                 },
@@ -185,6 +201,40 @@ class TaskScreenBody extends StatelessWidget {
               ),
             ),
           SliverToBoxAdapter(child: SizedBox(height: bottomScrollPadding)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDeleteBackground() {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.only(right: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFFF6B6B), Color(0xFFEF233C)],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      ),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.delete_outline_rounded,
+            color: Colors.white,
+            size: 28,
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Delete',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
