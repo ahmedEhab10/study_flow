@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
+import 'package:study_flow/Core/Services/user_prefs_service.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/MySubjectsSection.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_list.dart';
@@ -9,8 +10,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
 
-class HomeScreenBody extends StatelessWidget {
+class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
+
+  @override
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<HomeScreenBody> {
+  String _userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+    final profile = await UserPrefsService.getUserProfile();
+    if (!mounted) return;
+    setState(() {
+      _userName = (profile['name'] as String?) ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +45,10 @@ class HomeScreenBody extends StatelessWidget {
     // Gather all PDFs and reverse to show the most recent first
     final recentPdfs = allPdfs.reversed.take(3).toList();
 
+    // Build greeting: "Welcome back, Ahmed!" or "Welcome back!" if no name yet
+    final greeting =
+        _userName.isNotEmpty ? 'Welcome back, $_userName!' : 'Welcome back!';
+
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
 
@@ -34,7 +60,7 @@ class HomeScreenBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good morning, Ahmed',
+                  greeting,
                   style: GoogleFonts.inter(
                     fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
@@ -95,7 +121,8 @@ class HomeScreenBody extends StatelessWidget {
                       color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.08),
+                        color: theme.colorScheme.onSurface
+                            .withValues(alpha: 0.08),
                         width: 1,
                       ),
                     ),
@@ -104,7 +131,8 @@ class HomeScreenBody extends StatelessWidget {
                         'No recent PDFs uploaded yet.',
                         style: GoogleFonts.inter(
                           fontSize: 14.sp,
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.6),
                         ),
                       ),
                     ),
@@ -126,34 +154,3 @@ class HomeScreenBody extends StatelessWidget {
     );
   }
 }
-
-
- // Row(
-                //   children: [
-                //     SubjectItem(),
-                //     Expanded(
-                //       child: SubjectCard(
-                //         subject: SubjectModel(
-                //           name: 'Physics',
-                //           subtitle: '8 PDFs',
-                //           progress: 0.4,
-                //           accent: ColorsManager.primaryDark,
-                //           iconBg: ColorsManager.primary,
-                //           icon: SubjectIcon.physics,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                //
-
-
-//ClipRRect(
-                //   borderRadius: BorderRadius.all(Radius.circular(10)),
-                //   child: LinearProgressIndicator(
-                //     value: 0.6,
-                //     minHeight: 10, // Thickness of the bar
-                //     color: Colors.green,
-                //     backgroundColor: Colors.green.shade100,
-                //   ),
-                // ),

@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Widgets/custom_elevated_button.dart';
@@ -18,6 +19,7 @@ class OnboardinScreenBody extends StatefulWidget {
 class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
   late PageController controller;
   int currentIndex = 0;
+
   @override
   void initState() {
     controller = PageController(initialPage: 0);
@@ -30,35 +32,76 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
     super.dispose();
   }
 
+  void _goToSetup() {
+    Navigator.pushReplacementNamed(context, Routes.setup);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isLast = currentIndex == 2;
+
     return Stack(
       children: [
+        // ── Page content ───────────────────────────────────────────
         PageView(
-          onPageChanged: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
+          onPageChanged: (index) => setState(() => currentIndex = index),
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-
           controller: controller,
-          children: [
+          children: const [
             OnboardingScreenOne(),
             OnboardingScreenTwo(),
             OnboardingScreenThree(),
           ],
         ),
+
+        // ── Skip button (top-right) ────────────────────────────────
+        Positioned(
+          top: 12.h,
+          right: 16.w,
+          child: AnimatedOpacity(
+            opacity: isLast ? 0.0 : 1.0,
+            duration: const Duration(milliseconds: 250),
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: isLast ? null : _goToSetup,
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.07),
+                    borderRadius: BorderRadius.circular(50.r),
+                    border: Border.all(
+                      color:
+                          theme.colorScheme.onSurface.withValues(alpha: 0.12),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'Skip',
+                    style: GoogleFonts.inter(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.onSurface
+                          .withValues(alpha: 0.55),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // ── Bottom nav (dots + button) ─────────────────────────────
         Positioned(
           bottom: 30,
           left: 0,
           right: 0,
-
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 12.0,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 12.h,
             ),
             child: Column(
               children: [
@@ -67,29 +110,27 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
                   position: currentIndex.toDouble(),
                   decorator: DotsDecorator(
                     activeColor: ColorsManager.primaryDark,
-                    size: const Size.square(9.0),
-                    activeSize: const Size(18.0, 9.0),
+                    color: ColorsManager.primaryDark.withValues(alpha: 0.25),
+                    size: const Size.square(8.0),
+                    activeSize: const Size(22.0, 8.0),
                     activeShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomElevatedButton(
                   onPressed: () {
                     if (currentIndex < 2) {
                       controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.fastLinearToSlowEaseIn,
+                        duration: const Duration(milliseconds: 450),
+                        curve: Curves.easeInOutCubic,
                       );
                     } else {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.main_layout,
-                      );
+                      _goToSetup();
                     }
                   },
-                  title: currentIndex == 2 ? 'Get Started' : 'Next',
+                  title: isLast ? 'Get Started' : 'Next',
                 ),
               ],
             ),
