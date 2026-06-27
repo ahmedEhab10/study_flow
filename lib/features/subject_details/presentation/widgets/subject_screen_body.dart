@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/Models/Pdf_Model.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
+import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
@@ -42,7 +43,7 @@ class SubjectScreenBody extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -79,6 +80,13 @@ class SubjectScreenBody extends StatelessWidget {
                 CourseCompletionContainer(progress: subject.progress),
                 const SizedBox(height: 24),
                 ActionSection(
+                  onStudySessionTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.study_session,
+                      arguments: subject,
+                    );
+                  },
                   onAddPdfTap: () async {
                     try {
                       final result = await FilePicker.pickFiles(
@@ -124,8 +132,9 @@ class SubjectScreenBody extends StatelessWidget {
                                 content: Text(
                                   '$largeFileCount file(s) exceeded the 25MB limit and were not added.',
                                 ),
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.error,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.error,
                               ),
                             );
                           } else {
@@ -169,12 +178,13 @@ class SubjectScreenBody extends StatelessWidget {
                     (pdf) => PdfItem(
                       pdf: pdf,
                       isProgressMode: isProgressMode,
+                      showCompletionStyle: isProgressMode,
                       onCompletionToggled: isProgressMode
                           ? (isCompleted) => cubit.updatePdfCompletion(
-                                subject.name,
-                                pdf.id,
-                                isCompleted,
-                              )
+                              subject.name,
+                              pdf.id,
+                              isCompleted,
+                            )
                           : null,
                     ),
                   ),
@@ -195,10 +205,10 @@ class SubjectScreenBody extends StatelessWidget {
                         isProgressMode: isProgressMode,
                         onCompletionToggled: isProgressMode
                             ? (isCompleted) => cubit.updateNoteCompletion(
-                                  subject.name,
-                                  note.id,
-                                  isCompleted,
-                                )
+                                subject.name,
+                                note.id,
+                                isCompleted,
+                              )
                             : null,
                       ),
                     ),

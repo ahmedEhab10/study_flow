@@ -7,4 +7,5 @@ abstract class Routes {
   static const String subject_screen = '/subject_screen';
   static const String add_task = '/add_task';
   static const String all_subjects = '/all_subjects';
+  static const String study_session = '/study_session';
 }

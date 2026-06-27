@@ -6,12 +6,14 @@ class ActionSection extends StatelessWidget {
   final VoidCallback? onAddPdfTap;
   final VoidCallback? onAddNoteTap;
   final VoidCallback? onProgressTap;
+  final VoidCallback? onStudySessionTap;
 
   const ActionSection({
     super.key,
     this.onAddPdfTap,
     this.onAddNoteTap,
     this.onProgressTap,
+    this.onStudySessionTap,
   });
 
   @override
@@ -25,7 +27,15 @@ class ActionSection extends StatelessWidget {
             icon: Assets.svgsAddPdfIcon,
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 2),
+        Expanded(
+          child: ActionButton(
+            onTap: onStudySessionTap,
+            title: ' Study',
+            icon: 'assets/Svgs/study_session.svg',
+          ),
+        ),
+        const SizedBox(width: 2),
         Expanded(
           child: ActionButton(
             onTap: onAddNoteTap,
@@ -33,7 +43,7 @@ class ActionSection extends StatelessWidget {
             icon: Assets.svgsAddNoteIcon,
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 2),
         Expanded(
           child: ActionButton(
             onTap: onProgressTap,

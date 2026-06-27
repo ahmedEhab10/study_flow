@@ -13,6 +13,9 @@ class PdfItem extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isProgressMode;
   final ValueChanged<bool>? onCompletionToggled;
+  /// When false (default), the item ignores completion state for styling.
+  /// Set to true only in the Subject progress-tracker view.
+  final bool showCompletionStyle;
 
   const PdfItem({
     super.key,
@@ -20,6 +23,7 @@ class PdfItem extends StatelessWidget {
     this.onTap,
     this.isProgressMode = false,
     this.onCompletionToggled,
+    this.showCompletionStyle = false,
   });
 
   @override
@@ -32,7 +36,7 @@ class PdfItem extends StatelessWidget {
         ? '${pdf!.subjectName} - ${pdf!.timeAgo}' 
         : 'Biology - Opened 2 hours ago';
 
-    final isCompleted = pdf?.isCompleted ?? false;
+    final isCompleted = showCompletionStyle && (pdf?.isCompleted ?? false);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),

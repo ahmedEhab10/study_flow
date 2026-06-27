@@ -8,6 +8,7 @@ import 'package:study_flow/features/setup/presentation/setup_screen.dart';
 import 'package:study_flow/features/subject_details/presentation/subject_details_screen.dart';
 import 'package:study_flow/features/main/main_layout.dart';
 import 'package:study_flow/features/main/Home/presentation/all_subjects_screen.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/study_session_screen.dart';
 
 abstract class RoutesManager {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -18,6 +19,13 @@ abstract class RoutesManager {
         return MaterialPageRoute(
           builder: (context) => const OnboardingScreen(),
         );
+
+      case Routes.study_session:
+        final subject = settings.arguments as SubjectModel;
+        return MaterialPageRoute(
+          builder: (context) => StudySessionScreen(subject: subject),
+        );
+
       case Routes.main_layout:
         return MaterialPageRoute(builder: (context) => const MainLayout());
       case Routes.setup:

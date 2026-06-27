@@ -117,17 +117,17 @@ class _SplashScreenBodyState extends State<SplashScreenBody>
               child: FadeTransition(
                 opacity: _logoOpacity,
                 child: Container(
-                  width: 120.r,
-                  height: 120.r,
+                  width: 160.r,
+                  height: 160.r,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(32.r),
+                    borderRadius: BorderRadius.circular(36.r),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.3),
                       width: 1.5,
                     ),
                   ),
-                  padding: EdgeInsets.all(12.r),
+                  padding: EdgeInsets.all(8.r),
                   child: Image.asset(
                     'assets/Images/Logo_spalsh.png',
                     fit: BoxFit.contain,
