@@ -22,6 +22,14 @@ class Assets {
   /// assets/Images/Logo_spalsh.png
   static const String imagesLogoSpalsh = "assets/Images/Logo_spalsh.png";
 
+  /// Assets for newAppLogoAsPng
+  /// assets/Images/new_app_logo_as_png.png
+  static const String newAppLogoAsPng = "assets/Images/new_app_logo_as_png.png";
+
+  /// Assets for newAppLogoAsSvg
+  /// assets/Svgs/new_app_logo_as_svg.svg
+  static const String newAppLogoAsSvg = "assets/Svgs/new_app_logo_as_svg.svg";
+
   /// Assets for imagesOnboardinImage1
   /// assets/Images/onboardin_image1.png
   static const String imagesOnboardinImage1 = "assets/Images/onboardin_image1.png";

@@ -20,6 +20,11 @@ void main() async {
   await Hive.openBox('subjects_box');
   await Hive.openBox('study_calendar_box');
 
+  // Clear Hive boxes to test empty state animations
+  await Hive.box('tasks_box').clear();
+  await Hive.box('subjects_box').clear();
+  await Hive.box('study_calendar_box').clear();
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),

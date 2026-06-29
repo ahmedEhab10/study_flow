@@ -6,7 +6,6 @@ import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Widgets/custom_elevated_button.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/Onboarding/Presentation/Widgets/onboarding_screen_one.dart';
-import 'package:study_flow/features/Onboarding/Presentation/Widgets/onboarding_screen_three.dart';
 import 'package:study_flow/features/Onboarding/Presentation/Widgets/onboarding_screen_two.dart';
 
 class OnboardinScreenBody extends StatefulWidget {
@@ -39,7 +38,7 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLast = currentIndex == 2;
+    final isLast = currentIndex == 1;
 
     return Stack(
       children: [
@@ -52,7 +51,6 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
           children: const [
             OnboardingScreenOne(),
             OnboardingScreenTwo(),
-            OnboardingScreenThree(),
           ],
         ),
 
@@ -106,7 +104,7 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
             child: Column(
               children: [
                 DotsIndicator(
-                  dotsCount: 3,
+                  dotsCount: 2,
                   position: currentIndex.toDouble(),
                   decorator: DotsDecorator(
                     activeColor: ColorsManager.primaryDark,
@@ -121,7 +119,7 @@ class _OnboardinScreenBodyState extends State<OnboardinScreenBody> {
                 SizedBox(height: 16.h),
                 CustomElevatedButton(
                   onPressed: () {
-                    if (currentIndex < 2) {
+                    if (currentIndex < 1) {
                       controller.nextPage(
                         duration: const Duration(milliseconds: 450),
                         curve: Curves.easeInOutCubic,

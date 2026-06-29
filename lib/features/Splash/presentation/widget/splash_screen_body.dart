@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Services/user_prefs_service.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
@@ -128,10 +129,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody>
                     ),
                   ),
                   padding: EdgeInsets.all(8.r),
-                  child: Image.asset(
-                    'assets/Images/Logo_spalsh.png',
-                    fit: BoxFit.contain,
-                  ),
+                  child: Image.asset('assets/Images/new_app_logo_as_png.png'),
                 ),
               ),
             ),
