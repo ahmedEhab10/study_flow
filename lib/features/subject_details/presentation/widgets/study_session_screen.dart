@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
+import 'package:study_flow/Core/Models/Study_Record_Model.dart';
 import 'package:study_flow/Core/Services/study_timer_service.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
+import 'package:study_flow/features/Study_calendar/data/repositories/study_calendar_repository.dart';
 
 // ── Motivational quotes ────────────────────────────────────────────────────────
 const List<Map<String, String>> _quotes = [
@@ -162,6 +164,25 @@ class _StudySessionScreenState extends State<StudySessionScreen>
   void _onFinish() {
     final elapsed = _timerService.elapsedSeconds;
     _timerService.stop();
+
+    if (elapsed > 0) {
+      try {
+        final repo = StudyCalendarRepository();
+        final record = StudyRecordModel(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          date: DateTime.now(),
+          subjectName: widget.subject.name,
+          durationSeconds: elapsed,
+          pdfsCount: widget.subject.pdfs.length,
+          tasksCount: widget.subject.notes.length,
+          notes: ['Completed a study session for ${widget.subject.name}.'],
+        );
+        repo.saveRecord(record);
+      } catch (e) {
+        // Silently catch box issues
+      }
+    }
+
     if (mounted) _showFinishDialog(elapsed);
   }
 

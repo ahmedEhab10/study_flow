@@ -18,6 +18,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('tasks_box');
   await Hive.openBox('subjects_box');
+  await Hive.openBox('study_calendar_box');
 
   runApp(
     ChangeNotifierProvider(
