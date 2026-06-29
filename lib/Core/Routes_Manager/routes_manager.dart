@@ -3,6 +3,7 @@ import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/features/Onboarding/Presentation/onboarding_screen.dart';
 import 'package:study_flow/features/Splash/presentation/splash_screen.dart';
+import 'package:study_flow/features/Study_calendar/presentation/study_calendar_screen.dart';
 import 'package:study_flow/features/add_task/Presentation/add_task_sceen.dart';
 import 'package:study_flow/features/setup/presentation/setup_screen.dart';
 import 'package:study_flow/features/subject_details/presentation/subject_details_screen.dart';
@@ -24,6 +25,11 @@ abstract class RoutesManager {
         final subject = settings.arguments as SubjectModel;
         return MaterialPageRoute(
           builder: (context) => StudySessionScreen(subject: subject),
+        );
+
+      case Routes.study_calendar:
+        return MaterialPageRoute(
+          builder: (context) => const StudyCalendarScreen(),
         );
 
       case Routes.main_layout:

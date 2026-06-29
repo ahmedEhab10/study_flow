@@ -3,7 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:study_flow/Core/Provider/Theme_provider.dart';
+import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
+import 'package:study_flow/features/main/Profile/presentation/widgets/appearance_Card.dart';
+import 'package:study_flow/features/main/Profile/presentation/widgets/profile_head_card.dart';
+import 'package:study_flow/features/main/Profile/presentation/widgets/profile_item.dart';
 
 // ─── Profile Screen ───────────────────────────────────────────────────────────
 class ProfileScreen extends StatelessWidget {
@@ -39,12 +43,18 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: 8.h),
                   // ── Avatar + Name Card ────────────────────────────────────
-                  _ProfileHeaderCard(),
+                  ProfileHeaderCard(),
                   SizedBox(height: 28.h),
                   // ── Section: Appearance ───────────────────────────────────
                   _SectionLabel(label: 'Appearance'),
                   SizedBox(height: 10.h),
-                  _AppearanceCard(),
+                  AppearanceCard(),
+                  SizedBox(height: 10.h),
+                  profileItem(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.study_calendar);
+                    },
+                  ),
                   SizedBox(height: 28.h),
                   // ── Section: About ────────────────────────────────────────
                   _SectionLabel(label: 'About'),
@@ -53,160 +63,6 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: bottomPadding),
                 ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Profile Header Card ──────────────────────────────────────────────────────
-class _ProfileHeaderCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.r),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color:
-              theme.dividerTheme.color ??
-              ColorsManager.primary.withValues(alpha: 0.1),
-        ),
-      ),
-      child: Row(
-        children: [
-          // Avatar circle
-          Container(
-            width: 60.r,
-            height: 60.r,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [ColorsManager.primary, ColorsManager.secondary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                'A',
-                style: GoogleFonts.inter(
-                  fontSize: 26.sp,
-                  fontWeight: FontWeight.w700,
-                  color: ColorsManager.white,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 16.w),
-          // Name & subtitle
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ahmed',
-                  style: GoogleFonts.inter(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  'Student · StudyFlow AI',
-                  style: GoogleFonts.inter(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Edit placeholder
-          Icon(
-            Icons.edit_outlined,
-            size: 20.r,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Appearance Card (with ThemeToggle) ──────────────────────────────────────
-class _AppearanceCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color:
-              theme.dividerTheme.color ??
-              ColorsManager.primary.withValues(alpha: 0.1),
-        ),
-      ),
-      child: Column(
-        children: [
-          // Theme toggle row
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-            child: Row(
-              children: [
-                // Icon
-                Container(
-                  width: 36.r,
-                  height: 36.r,
-                  decoration: BoxDecoration(
-                    color: ColorsManager.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Icon(
-                    Icons.palette_outlined,
-                    size: 18.r,
-                    color: ColorsManager.primary,
-                  ),
-                ),
-                SizedBox(width: 14.w),
-                // Label
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Dark Mode',
-                        style: GoogleFonts.inter(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(
-                        'Switch between light and dark theme',
-                        style: GoogleFonts.inter(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Animated pill switch
-                const ThemeToggle(),
-              ],
             ),
           ),
         ],
