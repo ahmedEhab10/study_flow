@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:study_flow/Core/Provider/Theme_provider.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
+import 'package:study_flow/Core/Utils/app_assets.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/main/Profile/presentation/widgets/appearance_Card.dart';
 import 'package:study_flow/features/main/Profile/presentation/widgets/profile_head_card.dart';
@@ -54,6 +55,18 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, Routes.study_calendar);
                     },
+                    title: 'Study Calendar',
+                    label: 'Plan your sessions',
+                    icon: Icons.calendar_month,
+                  ),
+                  SizedBox(height: 10.h),
+                  profileItem(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.My_progress);
+                    },
+                    title: 'My Progress',
+                    label: 'Analyze your habits',
+                    svgicon: 'assets/Svgs/analyze.svg',
                   ),
                   SizedBox(height: 28.h),
                   // ── Section: About ────────────────────────────────────────

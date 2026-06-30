@@ -8,7 +8,8 @@ import 'package:study_flow/features/main/Home/presentation/cubit/subjects_state.
 class SubjectsCubit extends Cubit<SubjectsState> {
   final SubjectRepository _subjectRepository;
 
-  SubjectsCubit(this._subjectRepository) : super(const SubjectsInitial(subjects: [])) {
+  SubjectsCubit(this._subjectRepository)
+    : super(const SubjectsInitial(subjects: [])) {
     loadSubjects();
   }
 
@@ -19,7 +20,16 @@ class SubjectsCubit extends Cubit<SubjectsState> {
 
   Future<void> addSubject(SubjectModel subject) async {
     await _subjectRepository.addSubject(subject);
-    final updatedSubjects = List<SubjectModel>.from(state.subjects)..add(subject);
+    final updatedSubjects = List<SubjectModel>.from(state.subjects)
+      ..add(subject);
+    emit(SubjectsLoaded(subjects: updatedSubjects));
+  }
+
+  Future<void> deleteSubject(String subjectName) async {
+    await _subjectRepository.deleteSubject(subjectName);
+    final updatedSubjects = state.subjects
+        .where((subject) => subject.name != subjectName)
+        .toList();
     emit(SubjectsLoaded(subjects: updatedSubjects));
   }
 
@@ -47,7 +57,10 @@ class SubjectsCubit extends Cubit<SubjectsState> {
     emit(SubjectsLoaded(subjects: updatedSubjects));
   }
 
-  Future<void> updateSubjectProgress(String subjectName, double progress) async {
+  Future<void> updateSubjectProgress(
+    String subjectName,
+    double progress,
+  ) async {
     await _subjectRepository.updateSubjectProgress(subjectName, progress);
     final updatedSubjects = state.subjects.map((subject) {
       if (subject.name == subjectName) {
@@ -60,7 +73,10 @@ class SubjectsCubit extends Cubit<SubjectsState> {
 
   /// Toggles the [isCompleted] flag on a specific PDF and recalculates progress.
   Future<void> updatePdfCompletion(
-      String subjectName, String pdfId, bool isCompleted) async {
+    String subjectName,
+    String pdfId,
+    bool isCompleted,
+  ) async {
     await _subjectRepository.updatePdfCompletion(
       subjectName,
       pdfId,
@@ -83,7 +99,10 @@ class SubjectsCubit extends Cubit<SubjectsState> {
 
   /// Toggles the [isCompleted] flag on a specific note and recalculates progress.
   Future<void> updateNoteCompletion(
-      String subjectName, String noteId, bool isCompleted) async {
+    String subjectName,
+    String noteId,
+    bool isCompleted,
+  ) async {
     await _subjectRepository.updateNoteCompletion(
       subjectName,
       noteId,
@@ -94,7 +113,9 @@ class SubjectsCubit extends Cubit<SubjectsState> {
       if (subject.name != subjectName) return subject;
 
       final updatedNotes = subject.notes.map((note) {
-        return note.id == noteId ? note.copyWith(isCompleted: isCompleted) : note;
+        return note.id == noteId
+            ? note.copyWith(isCompleted: isCompleted)
+            : note;
       }).toList();
 
       final newProgress = _computeProgress(subject.pdfs, updatedNotes);

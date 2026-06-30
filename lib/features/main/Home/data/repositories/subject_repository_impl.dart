@@ -12,19 +12,33 @@ class SubjectRepositoryImpl implements SubjectRepository {
 
   @override
   Future<List<SubjectModel>> getSubjects() async {
-    if (_hiveService.isBoxEmpty()) {
+    final subjects = _hiveService.getSubjects();
+
+    if (!_hiveService.hasInitializedSubjects) {
+      if (subjects.isNotEmpty) {
+        await _hiveService.markSubjectsInitialized();
+        return subjects;
+      }
+
       final initialSubjects = const_list.subjects;
       for (var subject in initialSubjects) {
         _hiveService.saveSubject(subject);
       }
+      await _hiveService.markSubjectsInitialized();
       return initialSubjects;
     }
-    return _hiveService.getSubjects();
+
+    return subjects;
   }
 
   @override
   Future<void> addSubject(SubjectModel subject) async {
     _hiveService.saveSubject(subject);
+  }
+
+  @override
+  Future<void> deleteSubject(String subjectName) async {
+    await _hiveService.deleteSubject(subjectName);
   }
 
   @override
@@ -54,7 +68,10 @@ class SubjectRepositoryImpl implements SubjectRepository {
   }
 
   @override
-  Future<void> updateSubjectProgress(String subjectName, double progress) async {
+  Future<void> updateSubjectProgress(
+    String subjectName,
+    double progress,
+  ) async {
     final subjects = _hiveService.getSubjects();
     for (var subject in subjects) {
       if (subject.name == subjectName) {
@@ -67,7 +84,10 @@ class SubjectRepositoryImpl implements SubjectRepository {
 
   @override
   Future<void> updatePdfCompletion(
-      String subjectName, String pdfId, bool isCompleted) async {
+    String subjectName,
+    String pdfId,
+    bool isCompleted,
+  ) async {
     final subjects = _hiveService.getSubjects();
     for (var subject in subjects) {
       if (subject.name == subjectName) {
@@ -85,7 +105,10 @@ class SubjectRepositoryImpl implements SubjectRepository {
 
   @override
   Future<void> updateNoteCompletion(
-      String subjectName, String noteId, bool isCompleted) async {
+    String subjectName,
+    String noteId,
+    bool isCompleted,
+  ) async {
     final subjects = _hiveService.getSubjects();
     for (var subject in subjects) {
       if (subject.name == subjectName) {

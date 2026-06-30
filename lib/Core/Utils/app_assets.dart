@@ -2,6 +2,14 @@
 class Assets {
   Assets._();
   
+  /// Assets for animationEmptySubjectLoadingState
+  /// assets/animation/empty_subject_loading_state.json
+  static const String animationEmptySubjectLoadingState = "assets/animation/empty_subject_loading_state.json";
+
+  /// Assets for animationNoTaskResult
+  /// assets/animation/No_task_result.json
+  static const String animationNoTaskResult = "assets/animation/No_task_result.json";
+
   /// Assets for imagesAnalyticsBackground
   /// assets/Images/analytics_background.png
   static const String imagesAnalyticsBackground = "assets/Images/analytics_background.png";
@@ -22,13 +30,9 @@ class Assets {
   /// assets/Images/Logo_spalsh.png
   static const String imagesLogoSpalsh = "assets/Images/Logo_spalsh.png";
 
-  /// Assets for newAppLogoAsPng
+  /// Assets for imagesNewAppLogoAsPng
   /// assets/Images/new_app_logo_as_png.png
-  static const String newAppLogoAsPng = "assets/Images/new_app_logo_as_png.png";
-
-  /// Assets for newAppLogoAsSvg
-  /// assets/Svgs/new_app_logo_as_svg.svg
-  static const String newAppLogoAsSvg = "assets/Svgs/new_app_logo_as_svg.svg";
+  static const String imagesNewAppLogoAsPng = "assets/Images/new_app_logo_as_png.png";
 
   /// Assets for imagesOnboardinImage1
   /// assets/Images/onboardin_image1.png
@@ -61,6 +65,10 @@ class Assets {
   /// Assets for svgsAiQuizIcon
   /// assets/Svgs/ai_quiz_icon.svg
   static const String svgsAiQuizIcon = "assets/Svgs/ai_quiz_icon.svg";
+
+  /// Assets for svgsAnalyze
+  /// assets/Svgs/analyze.svg
+  static const String svgsAnalyze = "assets/Svgs/analyze.svg";
 
   /// Assets for svgsAppIcon
   /// assets/Svgs/app_icon.svg
@@ -106,6 +114,10 @@ class Assets {
   /// assets/Svgs/home_icon.svg
   static const String svgsHomeIcon = "assets/Svgs/home_icon.svg";
 
+  /// Assets for svgsNewAppLogoAsSvg
+  /// assets/Svgs/new_app_logo_as_svg.svg
+  static const String svgsNewAppLogoAsSvg = "assets/Svgs/new_app_logo_as_svg.svg";
+
   /// Assets for svgsNoteIitemCon
   /// assets/Svgs/note_iitem_con.svg
   static const String svgsNoteIitemCon = "assets/Svgs/note_iitem_con.svg";
@@ -145,6 +157,10 @@ class Assets {
   /// Assets for svgsStreak
   /// assets/Svgs/streak.svg
   static const String svgsStreak = "assets/Svgs/streak.svg";
+
+  /// Assets for svgsStudySession
+  /// assets/Svgs/study_session.svg
+  static const String svgsStudySession = "assets/Svgs/study_session.svg";
 
   /// Assets for svgsTasksIcon
   /// assets/Svgs/Tasks_icon.svg

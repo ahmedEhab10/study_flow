@@ -13,6 +13,7 @@ class PdfItem extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isProgressMode;
   final ValueChanged<bool>? onCompletionToggled;
+
   /// When false (default), the item ignores completion state for styling.
   /// Set to true only in the Subject progress-tracker view.
   final bool showCompletionStyle;
@@ -30,33 +31,34 @@ class PdfItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     final displayTitle = pdf?.title ?? 'Cellular Structure.pdf';
-    final displaySubtitle = pdf != null 
-        ? '${pdf!.subjectName} - ${pdf!.timeAgo}' 
+    final displaySubtitle = pdf != null
+        ? '${pdf!.subjectName} - ${pdf!.timeAgo}'
         : 'Biology - Opened 2 hours ago';
 
     final isCompleted = showCompletionStyle && (pdf?.isCompleted ?? false);
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: 2.h),
       child: InkWell(
         onTap: isProgressMode
             ? () => onCompletionToggled?.call(!isCompleted)
-            : (onTap ?? () async {
-                if (pdf?.filePath != null) {
-                  try {
-                    final result = await OpenFilex.open(pdf!.filePath!);
-                    if (kDebugMode) {
-                      print('Open file result: ${result.message}');
+            : (onTap ??
+                  () async {
+                    if (pdf?.filePath != null) {
+                      try {
+                        final result = await OpenFilex.open(pdf!.filePath!);
+                        if (kDebugMode) {
+                          print('Open file result: ${result.message}');
+                        }
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print('Error opening file: $e');
+                        }
+                      }
                     }
-                  } catch (e) {
-                    if (kDebugMode) {
-                      print('Error opening file: $e');
-                    }
-                  }
-                }
-              }),
+                  }),
         borderRadius: BorderRadius.circular(12.r),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
@@ -66,8 +68,8 @@ class PdfItem extends StatelessWidget {
           decoration: ShapeDecoration(
             color: isCompleted
                 ? (isDark
-                    ? ColorsManager.primary.withValues(alpha: 0.08)
-                    : ColorsManager.primary.withValues(alpha: 0.04))
+                      ? ColorsManager.primary.withValues(alpha: 0.08)
+                      : ColorsManager.primary.withValues(alpha: 0.04))
                 : theme.colorScheme.surface,
             shape: RoundedRectangleBorder(
               side: BorderSide(
@@ -97,7 +99,8 @@ class PdfItem extends StatelessWidget {
                     height: 22.r,
                     child: Checkbox(
                       value: isCompleted,
-                      onChanged: (val) => onCompletionToggled?.call(val ?? false),
+                      onChanged: (val) =>
+                          onCompletionToggled?.call(val ?? false),
                       activeColor: ColorsManager.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.r),
@@ -123,7 +126,9 @@ class PdfItem extends StatelessWidget {
                         color: isCompleted
                             ? theme.colorScheme.onSurface.withValues(alpha: 0.5)
                             : theme.colorScheme.onSurface,
-                        decoration: isCompleted ? TextDecoration.lineThrough : null,
+                        decoration: isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
                       ),
                     ),
                     SizedBox(height: 4.h),

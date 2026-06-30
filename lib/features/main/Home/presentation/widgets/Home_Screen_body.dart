@@ -199,7 +199,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 if (recentPdfs.isEmpty)
                   Container(
                     width: double.infinity,

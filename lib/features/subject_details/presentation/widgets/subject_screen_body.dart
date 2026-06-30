@@ -65,6 +65,18 @@ class SubjectScreenBody extends StatelessWidget {
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () async {
+                        await cubit.deleteSubject(subject.name);
+                        if (context.mounted && Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Icon(
+                        Icons.delete_outline_outlined,
+                        color: Colors.red,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),

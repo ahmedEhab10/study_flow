@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
+import 'package:study_flow/features/My_Progress/Presentation/Progress_screen.dart';
 import 'package:study_flow/features/Onboarding/Presentation/onboarding_screen.dart';
 import 'package:study_flow/features/Splash/presentation/splash_screen.dart';
 import 'package:study_flow/features/Study_calendar/presentation/study_calendar_screen.dart';
@@ -31,6 +32,9 @@ abstract class RoutesManager {
         return MaterialPageRoute(
           builder: (context) => const StudyCalendarScreen(),
         );
+
+      case Routes.My_progress:
+        return MaterialPageRoute(builder: (context) => const ProgressScreen());
 
       case Routes.main_layout:
         return MaterialPageRoute(builder: (context) => const MainLayout());

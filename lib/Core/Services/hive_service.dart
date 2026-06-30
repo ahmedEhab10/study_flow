@@ -3,17 +3,19 @@ import 'package:study_flow/Core/Models/Subject_Model.dart';
 
 class HiveService {
   static const String _boxName = 'subjects_box';
+  static const String _subjectsInitializedKey = '__subjects_initialized__';
 
   Box get _box => Hive.box(_boxName);
 
   List<SubjectModel> getSubjects() {
     final List<SubjectModel> subjects = [];
-    if (_box.isEmpty) {
-      return [];
-    }
     for (var key in _box.keys) {
-      final Map<dynamic, dynamic> map = _box.get(key) as Map<dynamic, dynamic>;
-      subjects.add(SubjectModel.fromJson(map));
+      if (key == _subjectsInitializedKey) continue;
+
+      final value = _box.get(key);
+      if (value is Map<dynamic, dynamic>) {
+        subjects.add(SubjectModel.fromJson(value));
+      }
     }
     return subjects;
   }
@@ -22,7 +24,15 @@ class HiveService {
     _box.put(subject.name, subject.toJson());
   }
 
-  bool isBoxEmpty() {
-    return _box.isEmpty;
+  Future<void> deleteSubject(String subjectName) async {
+    await _box.delete(subjectName);
+  }
+
+  bool get hasInitializedSubjects {
+    return _box.get(_subjectsInitializedKey, defaultValue: false) == true;
+  }
+
+  Future<void> markSubjectsInitialized() async {
+    await _box.put(_subjectsInitializedKey, true);
   }
 }

@@ -9,4 +9,5 @@ abstract class Routes {
   static const String all_subjects = '/all_subjects';
   static const String study_session = '/study_session';
   static const String study_calendar = '/study_calendar';
+  static const String My_progress = '/My_progress';
 }
