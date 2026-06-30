@@ -52,6 +52,7 @@ dependencies:
   path_provider: ^2.1.5
   open_filex: ^4.7.0
   lottie: ^3.4.0
+  fl_chart: ^0.70.2
 
 dev_dependencies:
   flutter_test:

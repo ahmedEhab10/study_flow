@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
+import 'package:study_flow/features/My_Progress/data/services/progress_analytics_service.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_item.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,9 @@ class InformationList extends StatelessWidget {
     final totalCount = tasks.length;
     final tasksInfo = '$completedCount/$totalCount';
 
+    final streakDays = ProgressAnalyticsService().calculate().currentStreak;
+    final streakInfo = streakDays == 1 ? '1 day' : '$streakDays days';
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isNarrow = constraints.maxWidth < 340;
@@ -23,10 +27,10 @@ class InformationList extends StatelessWidget {
         if (isNarrow) {
           return Column(
             children: [
-              const InformationItem(
+              InformationItem(
                 title: 'Daily Streak',
                 icon: Assets.svgsStreak,
-                theinfo: '3 days',
+                theinfo: streakInfo,
               ),
               SizedBox(height: 12.h),
               InformationItem(
@@ -40,11 +44,11 @@ class InformationList extends StatelessWidget {
 
         return Row(
           children: [
-            const Expanded(
+            Expanded(
               child: InformationItem(
                 title: 'Daily Streak',
                 icon: Assets.svgsStreak,
-                theinfo: '3 days',
+                theinfo: streakInfo,
               ),
             ),
             SizedBox(width: 12.w),
