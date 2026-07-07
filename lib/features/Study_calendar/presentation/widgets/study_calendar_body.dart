@@ -14,7 +14,8 @@ class StudyCalendarBody extends StatefulWidget {
   State<StudyCalendarBody> createState() => _StudyCalendarBodyState();
 }
 
-class _StudyCalendarBodyState extends State<StudyCalendarBody> {
+class _StudyCalendarBodyState extends State<StudyCalendarBody>
+    with RouteAware {
   final StudyCalendarRepository _repository = StudyCalendarRepository();
   List<StudyRecordModel> _records = [];
   late DateTime _selectedDate;
@@ -25,6 +26,13 @@ class _StudyCalendarBodyState extends State<StudyCalendarBody> {
     super.initState();
     _selectedDate = DateTime.now();
     _currentMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    _loadRecords();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reload every time this screen comes back into view
     _loadRecords();
   }
 
@@ -41,39 +49,44 @@ class _StudyCalendarBodyState extends State<StudyCalendarBody> {
         children: [
           // Header (Back button, Title, Subtitle)
           const StudyCalendarHeader(),
-          
+
           Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                // Streaks & Stats Grid
-                StudyStatsGrid(records: _records),
-                
-                // Monthly Heatmap Calendar
-                StudyHeatmapCalendar(
-                  records: _records,
-                  selectedDate: _selectedDate,
-                  currentMonth: _currentMonth,
-                  onDateSelected: (date) {
-                    setState(() {
-                      _selectedDate = date;
-                    });
-                  },
-                  onMonthChanged: (newMonth) {
-                    setState(() {
-                      _currentMonth = newMonth;
-                    });
-                  },
+            child: RefreshIndicator(
+              onRefresh: () async => _loadRecords(),
+              child: ListView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
-                
-                // Daily Details Card
-                StudyDayDetailsCard(
-                  selectedDate: _selectedDate,
-                  records: _records,
-                ),
-                
-                SizedBox(height: 24.h),
-              ],
+                children: [
+                  // Streaks & Stats Grid
+                  StudyStatsGrid(records: _records),
+
+                  // Monthly Heatmap Calendar
+                  StudyHeatmapCalendar(
+                    records: _records,
+                    selectedDate: _selectedDate,
+                    currentMonth: _currentMonth,
+                    onDateSelected: (date) {
+                      setState(() {
+                        _selectedDate = date;
+                      });
+                    },
+                    onMonthChanged: (newMonth) {
+                      setState(() {
+                        _currentMonth = newMonth;
+                      });
+                    },
+                  ),
+
+                  // Daily Details Card
+                  StudyDayDetailsCard(
+                    selectedDate: _selectedDate,
+                    records: _records,
+                  ),
+
+                  SizedBox(height: 24.h),
+                ],
+              ),
             ),
           ),
         ],

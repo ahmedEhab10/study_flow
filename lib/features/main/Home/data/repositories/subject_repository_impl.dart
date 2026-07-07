@@ -2,7 +2,6 @@ import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Models/Pdf_Model.dart';
 import 'package:study_flow/Core/Models/Note_Model.dart';
 import 'package:study_flow/Core/Services/hive_service.dart';
-import 'package:study_flow/Core/const/subject_list.dart' as const_list;
 import 'package:study_flow/features/main/Home/domain/repositories/subject_repository.dart';
 
 class SubjectRepositoryImpl implements SubjectRepository {
@@ -12,23 +11,7 @@ class SubjectRepositoryImpl implements SubjectRepository {
 
   @override
   Future<List<SubjectModel>> getSubjects() async {
-    final subjects = _hiveService.getSubjects();
-
-    if (!_hiveService.hasInitializedSubjects) {
-      if (subjects.isNotEmpty) {
-        await _hiveService.markSubjectsInitialized();
-        return subjects;
-      }
-
-      final initialSubjects = const_list.subjects;
-      for (var subject in initialSubjects) {
-        _hiveService.saveSubject(subject);
-      }
-      await _hiveService.markSubjectsInitialized();
-      return initialSubjects;
-    }
-
-    return subjects;
+    return _hiveService.getSubjects();
   }
 
   @override

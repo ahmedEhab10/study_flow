@@ -5,13 +5,11 @@ import 'package:lottie/lottie.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
 import 'package:study_flow/Core/Services/user_prefs_service.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
-import 'package:study_flow/Core/Widgets/Show_Modern_Bottom_Sheet.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/MySubjectsSection.dart';
 import 'package:study_flow/features/main/Home/presentation/widgets/information_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
-import 'package:study_flow/Core/resources/Colors_Manager.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});

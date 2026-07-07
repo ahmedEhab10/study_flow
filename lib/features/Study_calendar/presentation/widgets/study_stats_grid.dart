@@ -215,9 +215,7 @@ class StudyStatsGrid extends StatelessWidget {
       currentStreak: currentStreak,
       longestStreak: longestStreak,
       studyDays: studyDays,
-      completionRate: completionRate == 0 && studyDays > 0
-          ? 85
-          : completionRate, // Fallback to 85% to match mock nicely if no big study sessions
+      completionRate: completionRate,
     );
   }
 }

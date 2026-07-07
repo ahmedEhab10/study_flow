@@ -26,6 +26,14 @@ class _ProgressBodyState extends State<ProgressBody> {
     _stats = _analyticsService.calculate();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh stats every time this screen comes back into view
+    // (e.g. after user finishes a study session and navigates back)
+    _loadStats();
+  }
+
   void _loadStats() {
     setState(() => _stats = _analyticsService.calculate());
   }
