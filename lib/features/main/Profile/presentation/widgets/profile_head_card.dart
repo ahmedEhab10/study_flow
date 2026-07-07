@@ -61,7 +61,7 @@ class ProfileHeaderCard extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  'Student · StudyFlow AI',
+                  'Student · StudyFlow ',
                   style: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w500,
