@@ -9,17 +9,15 @@ import 'package:study_flow/Core/Helper/subject_icon_pranter.dart';
 import 'package:study_flow/Core/Models/Pdf_Model.dart';
 import 'package:study_flow/Core/Models/Subject_Model.dart';
 import 'package:study_flow/Core/Routes_Manager/routes.dart';
-import 'package:study_flow/Core/Utils/app_assets.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/course_completion_container.dart';
 import 'package:study_flow/Core/Widgets/pdf_item.dart';
 import 'package:study_flow/Core/Widgets/view_all_row.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/main/Home/presentation/cubit/subjects_cubit.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/action_section.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/add_note_sheet.dart';
-import 'package:study_flow/features/subject_details/presentation/widgets/analytics_item.dart';
-import 'package:study_flow/features/subject_details/presentation/widgets/course_completion_container.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/expandable_note_item.dart';
-import 'package:study_flow/features/main/Home/presentation/widgets/information_item.dart';
+import 'package:study_flow/features/subject_details/presentation/widgets/subject_analytics_section.dart';
 
 class SubjectScreenBody extends StatelessWidget {
   final SubjectModel subject;
@@ -226,36 +224,7 @@ class SubjectScreenBody extends StatelessWidget {
                     ),
                   ),
                 const SizedBox(height: 16),
-                Text(
-                  'Analytics',
-                  style: GoogleFonts.inter(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w800,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const AnalyticsItem(),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: InformationItem(
-                        title: 'DAY STREAK',
-                        icon: Assets.svgsStreak,
-                        theinfo: '3 days',
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    const Expanded(
-                      child: InformationItem(
-                        title: 'TOTAL STUDY TIME',
-                        icon: Assets.svgsTime,
-                        theinfo: '6h 30m',
-                      ),
-                    ),
-                  ],
-                ),
+                SubjectAnalyticsSection(subjectName: subject.name),
               ],
             ),
           ),

@@ -2,13 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
+import 'package:study_flow/features/My_Progress/data/services/progress_analytics_service.dart';
 
 class AnalyticsItem extends StatelessWidget {
-  const AnalyticsItem({super.key});
+  final double weeklyProgressPercent;
+  final bool isPositive;
+  final bool hasComparison;
+
+  const AnalyticsItem({
+    super.key,
+    required this.weeklyProgressPercent,
+    this.isPositive = true,
+    this.hasComparison = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final progressLabel = hasComparison
+        ? formatWeeklyProgressPercent(weeklyProgressPercent)
+        : '0%';
+    final comparisonColor = !hasComparison
+        ? theme.colorScheme.onSurface.withValues(alpha: 0.45)
+        : isPositive
+            ? ColorsManager.tartar
+            : ColorsManager.error;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
@@ -54,7 +73,7 @@ class AnalyticsItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '+15%',
+                      progressLabel,
                       style: GoogleFonts.inter(
                         fontSize: 32.sp,
                         fontWeight: FontWeight.bold,
@@ -67,7 +86,7 @@ class AnalyticsItem extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
-                        color: ColorsManager.tartar,
+                        color: comparisonColor,
                       ),
                     ),
                   ],

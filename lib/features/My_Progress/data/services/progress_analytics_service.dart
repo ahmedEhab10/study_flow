@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_flow/Core/Models/Study_Record_Model.dart';
 import 'package:study_flow/Core/resources/Colors_Manager.dart';
 import 'package:study_flow/features/My_Progress/domain/models/progress_stats.dart';
+import 'package:study_flow/features/My_Progress/domain/models/subject_analytics.dart';
 import 'package:study_flow/features/Study_calendar/data/repositories/study_calendar_repository.dart';
 
 class ProgressAnalyticsService {
@@ -111,6 +112,51 @@ class ProgressAnalyticsService {
 
   int get currentStreak => calculate().currentStreak;
 
+  SubjectAnalytics calculateForSubject(String subjectName) {
+    final records = _repository
+        .getAllRecords()
+        .where((r) => r.subjectName == subjectName)
+        .toList();
+
+    if (records.isEmpty) return SubjectAnalytics.empty;
+
+    final now = DateTime.now();
+    final weekStart = _dateOnly(now.subtract(Duration(days: now.weekday - 1)));
+    final lastWeekStart = weekStart.subtract(const Duration(days: 7));
+
+    final thisWeekTime = _sumDuration(
+      records.where((r) {
+        final d = _dateOnly(r.date);
+        return !d.isBefore(weekStart) &&
+            d.isBefore(weekStart.add(const Duration(days: 7)));
+      }),
+    );
+
+    final lastWeekTime = _sumDuration(
+      records.where((r) {
+        final d = _dateOnly(r.date);
+        return !d.isBefore(lastWeekStart) && d.isBefore(weekStart);
+      }),
+    );
+
+    final streaks = _calculateStreaks(records);
+
+    return SubjectAnalytics(
+      currentStreak: streaks.currentStreak,
+      totalStudyTime: _sumDuration(records),
+      weeklyProgressPercent: _weeklyProgressPercent(thisWeekTime, lastWeekTime),
+      hasWeeklyComparison: lastWeekTime.inSeconds > 0 || thisWeekTime.inSeconds > 0,
+    );
+  }
+
+  double _weeklyProgressPercent(Duration thisWeek, Duration lastWeek) {
+    if (lastWeek.inSeconds == 0) {
+      return thisWeek.inSeconds > 0 ? 100.0 : 0.0;
+    }
+    return ((thisWeek.inSeconds - lastWeek.inSeconds) / lastWeek.inSeconds) *
+        100;
+  }
+
   DateTime _dateOnly(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
@@ -195,4 +241,25 @@ String formatAvgSession(Duration duration) {
   final minutes = duration.inMinutes;
   if (minutes <= 0) return '0 m';
   return '$minutes m';
+}
+
+String formatDetailedStudyDuration(Duration duration) {
+  final hours = duration.inHours;
+  final minutes = duration.inMinutes.remainder(60);
+  if (hours > 0 && minutes > 0) return '${hours}h ${minutes}m';
+  if (hours > 0) return '${hours}h';
+  if (minutes > 0) return '${minutes}m';
+  return '0m';
+}
+
+String formatStreakDays(int days) {
+  if (days == 1) return '1 day';
+  return '$days days';
+}
+
+String formatWeeklyProgressPercent(double percent) {
+  final rounded = percent.round();
+  if (rounded > 0) return '+$rounded%';
+  if (rounded < 0) return '$rounded%';
+  return '0%';
 }
