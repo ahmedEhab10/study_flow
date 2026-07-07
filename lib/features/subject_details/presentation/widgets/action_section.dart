@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_flow/Core/Utils/app_assets.dart';
 import 'package:study_flow/features/subject_details/presentation/widgets/action_button.dart';
 
@@ -27,7 +28,7 @@ class ActionSection extends StatelessWidget {
             icon: Assets.svgsAddPdfIcon,
           ),
         ),
-        const SizedBox(width: 2),
+        SizedBox(width: 5.w),
         Expanded(
           child: ActionButton(
             onTap: onStudySessionTap,
@@ -35,7 +36,7 @@ class ActionSection extends StatelessWidget {
             icon: 'assets/Svgs/study_session.svg',
           ),
         ),
-        const SizedBox(width: 2),
+        SizedBox(width: 5.w),
         Expanded(
           child: ActionButton(
             onTap: onAddNoteTap,
@@ -43,7 +44,7 @@ class ActionSection extends StatelessWidget {
             icon: Assets.svgsAddNoteIcon,
           ),
         ),
-        const SizedBox(width: 2),
+        SizedBox(width: 5.w),
         Expanded(
           child: ActionButton(
             onTap: onProgressTap,

@@ -97,6 +97,7 @@ class SubjectScreenBody extends StatelessWidget {
                       arguments: subject,
                     );
                   },
+
                   onAddPdfTap: () async {
                     try {
                       final result = await FilePicker.pickFiles(
